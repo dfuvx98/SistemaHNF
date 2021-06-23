@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Persona;
 
 class RegisterController extends Controller
 {
@@ -21,7 +22,7 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
+    
     use RegistersUsers;
 
     /**
@@ -51,8 +52,17 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'nick' => ['required', 'string', 'max:255'],
+            'cedula' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'telefono' => ['required', 'string', 'max:255'],
+            'direccion' => ['required', 'string', 'max:255'],
+            'ciudadResi' => ['required', 'string', 'max:255'],
+            'genero' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            
+
         ]);
     }
 
@@ -64,10 +74,36 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+
+        $datos= ['nombre' => $data['name'],'apellido' => $data['surname'],'cedula' => $data['cedula'],'email' => $data['email'],
+        'telefono' =>$data['telefono'],'direccion' =>$data['direccion'],'ciudadResi' =>$data['ciudadResi'],'genero' =>$data['genero'],]; 
+        
+        
+        $a= Persona::create([
+            'nombre' => $datos['nombre'],
+            'apellido' => $datos['apellido'],
+            'cedula' => $datos['cedula'],
+            'email' => $datos['email'],
+            'telefono' =>$datos['telefono'],
+            'direccion' =>$datos['direccion'],
+            'ciudadResi' =>$datos['ciudadResi'],
+            'fechaNacimiento' =>'1998-03-05',
+            'genero' =>$datos['genero'],
+            'estado'=> '1',
+            'idTipoPersona'=>'2'
         ]);
+        
+        
+        
+        return User::create([
+            'name' => 'clienteUser',
+            'surname' => $data['surname'],
+            'email' => $data['email'],
+            'nick' => $data['nick'],
+            'password' => Hash::make($data['password']),
+            'role' => 'cliente',
+            'idPersona'=> $a->id
+        ]);
+        
     }
 }

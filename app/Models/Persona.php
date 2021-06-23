@@ -7,6 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Persona extends Model
 {
+    
+    public $timestamps =false;
+    protected $fillable = [
+        'nombre',
+        'apellido',
+        'cedula',
+        'email',
+        'telefono',
+        'direccion',
+        'ciudadResi',
+        'fechaNacimiento',
+        'genero',
+        'estado',
+        'idTipoPersona'
+    ];
     protected $table ='personas';
     use HasFactory;
 
