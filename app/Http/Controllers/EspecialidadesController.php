@@ -30,11 +30,11 @@ class EspecialidadesController extends Controller
     }
     public function update(Request $request, $id){
         $request->validate([
-            'nombre' => 'required|unique:especialidades|max:15'
+            'nombre' => 'required|unique:especialidades|max:20'
         ],
         [
             'nombre.unique' =>"Ingrese una especialidad que no esté ya ingresada en el sistema",
-            'nombre.max' =>"El nombre de la especialidad no puede ser mayor a 15 caracteres"
+            'nombre.max' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres"
         ]);
         $especialidad = Especialidades::findOrFail($id);
         $especialidad->fill($request->all());
@@ -53,11 +53,11 @@ class EspecialidadesController extends Controller
     public function store(Request $request){
         
         $request->validate([
-            'nombre' => 'required|unique:especialidades|max:15'
+            'nombre' => 'required|unique:especialidades|max:20'
         ],
         [
             'nombre.unique' =>"Ingrese una especialidad que no esté ya ingresada en el sistema",
-            'nombre.max' =>"El nombre de la especialidad no puede ser mayor a 15 caracteres"
+            'nombre.max' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres"
         ]);
         $especialidad = new Especialidades;   
         $especialidad->fill($request->all());
