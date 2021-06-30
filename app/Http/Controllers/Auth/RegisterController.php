@@ -60,7 +60,7 @@ class RegisterController extends Controller
             'direccion' => ['required', 'string', 'max:255'],
             'ciudadResi' => ['required', 'string', 'max:255'],
             'genero' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            
             
 
         ]);
@@ -76,7 +76,8 @@ class RegisterController extends Controller
     {
 
         $datos= ['nombre' => $data['name'],'apellido' => $data['surname'],'cedula' => $data['cedula'],'email' => $data['email'],
-        'telefono' =>$data['telefono'],'direccion' =>$data['direccion'],'ciudadResi' =>$data['ciudadResi'],'genero' =>$data['genero'],]; 
+        'telefono' =>$data['telefono'],'direccion' =>$data['direccion'],'ciudadResi' =>$data['ciudadResi'],'fechaNacimiento' =>$data['fechaNacimiento'], 
+        'genero' =>$data['genero'],]; 
         
         
         $a= Persona::create([
@@ -87,7 +88,7 @@ class RegisterController extends Controller
             'telefono' =>$datos['telefono'],
             'direccion' =>$datos['direccion'],
             'ciudadResi' =>$datos['ciudadResi'],
-            'fechaNacimiento' =>'1998-03-05',
+            'fechaNacimiento' =>$datos['fechaNacimiento'],
             'genero' =>$datos['genero'],
             'estado'=> '1',
             'idTipoPersona'=>'2'
@@ -96,11 +97,11 @@ class RegisterController extends Controller
         
         
         return User::create([
-            'name' => 'clienteUser',
+            'name' => 'C'.$data['cedula'],
             'surname' => $data['surname'],
             'email' => $data['email'],
             'nick' => $data['nick'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make('C'.$data['cedula']),
             'role' => 'cliente',
             'idPersona'=> $a->id
         ]);
