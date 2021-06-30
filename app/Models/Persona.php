@@ -33,12 +33,12 @@ class Persona extends Model
         return $this->hasMany(Cita::class);
     }
 
-    public function Usuario(){
+    public function Users(){
         return $this->hasOne(Usuario::class);
     }
 
     public function Persona_especialidad(){
-        return $this->hasMany(Persona_especialidad::class);
+        return $this->belongsToMany(Especialidades::class,'persona_especialidad','idPersona','idEspecialidad');
     }
 
     public function Cliente(){
