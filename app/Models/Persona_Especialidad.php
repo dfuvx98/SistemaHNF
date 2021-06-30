@@ -10,7 +10,11 @@ class Persona_Especialidad extends Model
     protected $table='persona_especialidad';
     use HasFactory;
 
+    public function persona(){
+        return $this-> belongsTo(Persona::class); 
+    }
+
     public function especialidad(){
-        retrun $this-> belongsTo(Especialidades::class); 
+        return $this-> belongsTo(Especialidades::class); 
     }
 }
