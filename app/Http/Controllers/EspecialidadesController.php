@@ -41,7 +41,7 @@ class EspecialidadesController extends Controller
         if($especialidad ->save()){
             return redirect()->route('especialidades.index');
         }else{
-        return redirect()->route('especialidades.update');
+        return redirect()->route('especialidades.edit');
         }
     }
 
@@ -70,25 +70,20 @@ class EspecialidadesController extends Controller
 
     }
 
-    public function borrarEspecialidad(Request $request){
-        
-        $id = $request->id;
-        var_dump($id);
-        $especialidad = Especialidades::find($id);
-        
-        $especialidad->estado = false;
-        return redirect()->route('especialidades.index');
-
+    public function borrar($id){
+        $especialidad = Especialidades::findOrFail($id);
+        return view ('formularioBorrarEspecialidad',compact('especialidad'));
     }
     
-    public function restaurarEspecialidad(Request $request){
-        
-        $id = $request->id;
-        var_dump($id);
-        $especialidad = Especialidades::find($id);
-        
-        $especialidad->estado = false;
-        return redirect()->route('especialidades.index');
-
+    public function borrarEspecialidad($id){
+        $especialidad = Especialidades::findOrFail($id);
+        $especialidad->estado =False;
+        if($especialidad ->save()){
+            return redirect()->route('especialidades.index');
+        }else{
+        return redirect()->route('especialidades.borrar');
+        }
     }
+
+   
 }
