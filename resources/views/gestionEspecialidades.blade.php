@@ -3,25 +3,37 @@
 @section('content')
 
 <h1 class="ml-5">Gestión Especialidades</h1>
+<div class="container my-5">
+    <a class="btn btn-primary btn-lg text-body" href="{{route('especialidades.create')}}">Registrar Especialidad</a>
+</div>
 <div class="container">
     <table class="table table-bordered table-hover">
         <tr class="info">
             <th>Nombre</th>
+            <th>Estado</th>
+            <th colspan="2">Opciones</th>            
         </tr>
         @foreach ($especialidades as $especialidad)
-            <tr>
-                <td>{{$especialidad->nombre}}</td>
-                @if ($especialidad->estado==1)
-                <td>Activo</td>
-                @else
-                <td>Desactivado</td>    
+            @if ($especialidad)
+                <tr>
+                    <td>{{$especialidad->nombre}}</td>
+                    @if ($especialidad->estado==1)
+                    <td>Activo</td>
+                    @else
+                    <td>Desactivado</td>
+                    @endif
+                    <td>@if ($especialidad->estado==1)
+                            <a href="{{route('especialidades.edit', $especialidad->id)}}">Editar</a></td>
+                        @endif
+                    <td>@if ($especialidad->estado==1)
+                        <a href="{{route('especialidades.borrar', $especialidad->id)}}">Borrar</a></td>
+                        @endif    
                 @endif
-                <td><a href="{{route('especialidades.edit', $especialidad->id)}}">Editar</a></td>
-                <td><a href="{{route('borrarEspecialidad', $especialidad->id)}}" method="POST">Borrar</a></td>
+                
             </tr>
         @endforeach
     </table>
 
-    <a class="btn btn-primary"href="{{route('especialidades.create')}}">Registrar Especialidad</a>
+
 </div>
 @endsection

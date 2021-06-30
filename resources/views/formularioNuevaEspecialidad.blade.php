@@ -28,7 +28,7 @@
                         
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary text-body">
                                     {{ __('Registrar') }}
                                 </button>
                                 <a class=" button btn btn-danger"href="{{route('especialidades.index')}}">Cancelar</a>        
