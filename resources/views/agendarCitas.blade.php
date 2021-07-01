@@ -15,7 +15,7 @@
                     <form method="POST">
                         @csrf
                         <div class="form-group row">
-                            <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('paciente') }}</label>
+                            <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
                             
                             <div class="col-md-6">
                                 <input id="paciente" type="text" class="form-control" @error('paciente') is-invalid @enderror name="paciente" required autocomplete="paciente" autofocus>

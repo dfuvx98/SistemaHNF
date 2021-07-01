@@ -3,11 +3,11 @@
 @section('content')
 <div class="container">
 
-    <h1>Editar Especialidad</h1>
+    <h1>Borrar Especialidad</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header">{{ __('Borrar') }}</div>
 
                 <div class="card-body">
                     <form method="post" action="{{ route('especialidades.borrarEspecialidad', $especialidad) }}">
@@ -17,7 +17,7 @@
                             <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="nombre" type="text"  readonly class="form-control-plaintext" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ $especialidad->nombre }}" required autocomplete="nombre" autofocus>
+                                <input id="nombre" type="text"  readonly class="form-control-plaintext" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ $especialidad->nombre }}" required autocomplete="nombre">
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

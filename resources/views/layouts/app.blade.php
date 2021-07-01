@@ -24,7 +24,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    Hospital Nuestro Corazón
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -53,16 +53,16 @@
                             @endif
                         @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('especialidades.index') }}">{{ __('Gestion especialidades') }}</a>
+                            <a class="nav-link" href="{{ route('especialidades.index') }}">{{ __('Gestión Especialidades') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('personaMostrarMedicos') }}">{{ __('Gestion medicos') }}</a>
+                            <a class="nav-link" href="{{ route('personaMostrarMedicos') }}">{{ __('Gestión Médicos') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Gestion especialidades') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Gestión especialidades') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cita.create') }}">{{ __('Gestion citas') }}</a>
+                            <a class="nav-link" href="{{ route('cita.create') }}">{{ __('Gestión citas') }}</a>
                         </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

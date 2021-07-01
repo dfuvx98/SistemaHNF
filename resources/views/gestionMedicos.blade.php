@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Gestión Médicos</h1>
+<h1 class="ml-5">Gestión Médicos</h1>
 <div class="container">
     <div class="container my-5">
         <a class="btn btn-primary btn-lg text-body" href="{{route('medico.create')}}">Registrar Médico</a>
