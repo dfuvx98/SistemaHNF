@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container">
-
     <h1>Borrar Médico</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
