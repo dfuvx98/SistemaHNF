@@ -34,7 +34,7 @@ class Persona extends Model
     }
 
     public function Users(){
-        return $this->hasOne(Usuario::class);
+        return $this->hasOne(Usuario::class,'idPersona');
     }
 
     public function Persona_especialidad(){
@@ -42,11 +42,11 @@ class Persona extends Model
     }
 
     public function Cliente(){
-        return $this->belongsTo(Persona::class,'idPersona');
+        return $this->hasMany(Persona::class,'idPersona');
     }
 
     public function Pacientes(){
-        return $this->hasMany(Persona::class,'idPersona');
+        return $this->belongsTo(Persona::class,'idPersona');
     }
     
 }
