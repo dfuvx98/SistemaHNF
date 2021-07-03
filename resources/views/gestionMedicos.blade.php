@@ -12,6 +12,7 @@
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Cedula</th>
+            <th>Usuario</th>
             <th>Email</th>
             <th>Especialidades</th>
             <th>Teléfono</th>
@@ -21,11 +22,12 @@
             <th>Género</th>
             <th colspan="2">Opciones</th>
         </tr>
-        @foreach ($medicos as $medico)
+        @foreach ($medicos as $key=>$medico)
             <tr>
                 <td>{{$medico->nombre}}</td>
                 <td>{{$medico->apellido}}</td>
                 <td>{{$medico->cedula}}</td>
+                <td>{{$medico->Users->name}}</td>
                 <td>{{$medico->email}}</td>
                 <td>
                     @foreach ($medico->Persona_especialidad as $especialidad)

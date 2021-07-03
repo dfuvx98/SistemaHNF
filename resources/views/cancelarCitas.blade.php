@@ -11,7 +11,7 @@
 
 <div class="container">
 
-    <h1 class="ml-5">Agendar Citas</h1>
+    <h1 class="ml-5">Cancelar Citas</h1>
 
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -24,11 +24,12 @@
                         <div class="form-group row">
                             <label for="Paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
                             <div class="col-md-6">
-                            <select name="paciente" id="paciente" class="form-control">
-                                @foreach ($personas as $persona)
-                                <option value="{{ $persona->id}}">{{ $persona->nombre}}</option>    
-                                @endforeach
-                              </select>
+                                <input id="paciente" type="text" class="form-control-plaintext" @error('paciente') is-invalid @enderror name="paciente" value="{{ $cita->Paciente->nombre}}" required autocomplete="paciente" autofocus>
+                                @error('paciente')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         

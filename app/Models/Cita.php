@@ -13,8 +13,18 @@ class Cita extends Model
     protected $guarded = [ 'id'];
 
     public function Consulta(){
-        
         return $this->hasOne(Consulta::class,'idCita');
     }
 
+    public function Paciente(){
+        return $this->belongsTo(Persona::class,'idPersonaP');
+    }
+
+    public function Medico(){
+        return $this->belongsTo(Persona::class,'idPersonaD');
+    }
+
+    public function Especialidades(){
+        return $this->belongsTo(Especialidades::class,'idEspecialidad');
+    }
 }
