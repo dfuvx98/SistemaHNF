@@ -32,11 +32,11 @@ class Persona extends Model
     public function Citas(){
         return $this->hasMany(Cita::class);
     }
-    
+
     public function Users(){
         return $this->hasOne(User::class,'idPersona');
     }
-
+    
     public function Persona_especialidad(){
         return $this->belongsToMany(Especialidades::class,'persona_especialidad','idPersona','idEspecialidad');
     }

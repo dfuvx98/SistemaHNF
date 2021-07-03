@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Especialidades;
 use Illuminate\Http\Request;
+use App\Models\Persona_especialidad;
+use App\Models\Persona;
 use Illuminate\Support\Facades\Validator;
 class EspecialidadesController extends Controller
 {
@@ -85,5 +87,18 @@ class EspecialidadesController extends Controller
         }
     }
 
+    public function obtenerMedicos($id){
+        $person_espe = Persona_especialidad::where('idEspecialidad', $id)->get();
+        $array = [];
+        foreach($person_espe as $person){
+            if($person->idPersona){
+                $persona = Persona::findOrFail($person->idPersona);
+                if($persona){
+                    array_push($array,$persona);
+                }
+            }
+        }
+        return response()->json($array);
+    }
    
 }

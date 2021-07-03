@@ -132,13 +132,10 @@
                             <label for="genero" class="col-md-4 col-form-label text-md-right">{{ __('Genero') }}</label>
 
                             <div class="col-md-6">
-                                <input id="genero" type="text" class="form-control @error('genero') is-invalid @enderror" name="genero" value="{{ old('genero') }}" required autocomplete="genero" autofocus>
-
-                                @error('genero')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select name="paciente" id="paciente" class="form-control">
+                                    <option value="Masculino">Masculino</option>    
+                                    <option value="Femenino">Femenino</option>    
+                                  </select>
                             </div>
                         </div>
 

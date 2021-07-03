@@ -11,7 +11,8 @@ class Persona_Especialidad extends Model
     use HasFactory;
 
     public function persona(){
-        return $this-> belongsTo(Persona::class); 
+        //return $this->belongsTo(Persona::class,'personas','id','idPersona'); 
+        return $this->belongsToMany(Persona::class,'personas','id');
     }
 
     public function especialidad(){

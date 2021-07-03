@@ -1,11 +1,5 @@
 @extends('layouts.app')
 
-@section('js_extras')
-
-@endsection
-
-@section('css_extra')
-@endsection
 
 @section('content')
 
@@ -24,11 +18,22 @@
                         <div class="form-group row">
                             <label for="Paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
                             <div class="col-md-6">
+                                <!--
                             <select name="paciente" id="paciente" class="form-control">
-                                @foreach ($personas as $persona)
-                                <option value="{{ $persona->id}}">{{ $persona->nombre}}</option>    
-                                @endforeach
+                                foreach ($personas as $persona)
+                                <option value="{ $persona->id}">{$persona->nombre}</option>    
+                                endforeach
                               </select>
+                            -->
+                              <select class="form-control selection" id="paciente" name="especialidad">
+                                @if (isSet($personas))
+                                    @foreach ($personas as $persona)
+                                        <option value="{{ $persona->id}}">{{ $persona->nombre}} {{ $persona->apellido}}</option>        
+                                    @endforeach
+                                    @else
+                                    <option value="0">No existen pacientes</option>        
+                                @endif
+                            </select>
                             </div>
                         </div>
                         
@@ -37,12 +42,15 @@
                             <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidad') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="especialidad" type="text" class="form-control" @error('especialidad') is-invalid @enderror name="especialidad" required autocomplete="especialidad" autofocus>
-                                @error('especialidad')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select class="form-control selection" id="especialidad" name="especialidad">
+                                    @if (isSet($especialidades))
+                                        @foreach ($especialidades as $especialidad)
+                                            <option value="{{ $especialidad->id}}">{{ $especialidad->nombre}}</option>        
+                                        @endforeach
+                                        @else
+                                        <option value="0">No existen especialidades</option>        
+                                    @endif
+                                </select>
                             </div>
                         </div>
 
@@ -50,12 +58,9 @@
                             <label for="medico" class="col-md-4 col-form-label text-md-right">{{ __('Médico') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="medico" type="text" class="form-control" @error('medico') is-invalid @enderror name="medico" required autocomplete="medico" autofocus>
-                                @error('medico')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select class="form-control selection" id="medico" name="medico">
+
+                                </select>
                             </div>
                         </div>
 
@@ -100,6 +105,61 @@
         </div>
     </div>
 </div>
+@endsection
+@section('css_extra')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .select2-container .select2-selection--single {
+        height: 37px;
+    }
+</style>
+@endsection
+@section('js_extras')
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    console.log("script cargado");
+    
+    function changeSelector(id){
+        $.ajax({
+            type: 'get',
+            url: '/especialidades/medicos/'+id,
+            success: function (data) {
+                var medicos = $('#medico');
+                medicos
+                .find('option')
+                .remove();
+                for (const key in data) {
+                    var datos = data[key];
+                    var text = datos.nombre+' '+datos.apellido;
+                    var option = new Option(text, datos.id, false, false);
+                    medicos.append(option).trigger('change');
+                    // manually trigger the `select2:select` event
+                    medicos.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: datos
+                        }
+                    });
+                }
+                
+                
+            },
+            error: function (data) {
+                console.log('error', data);
+            }
+        });
+    };
 
+    $('#paciente').select2();
+
+    $('#especialidad').select2({
+        templateSelection: function (data) {
+            changeSelector(data.id);
+            return data.text
+        }
+    });
+    $('#medico').select2();
+</script>
 @endsection

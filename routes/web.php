@@ -26,6 +26,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/especialidades/borrar/{id}',[EspecialidadesController::class,'borrar'])->name('especialidades.borrar');
 Route::put('/especialidades/delete/{id}',[EspecialidadesController::class,'borrarEspecialidad'])->name('especialidades.borrarEspecialidad');
+Route::get('/especialidades/medicos/{id}',[EspecialidadesController::class,'obtenerMedicos'])->name('especialidades.obtenerMedicos');
 Route::resource('/especialidades', EspecialidadesController::class);
 Route::get('/gestionarMedicos', [PersonaController::class,'mostrarMedicos'])->name('personaMostrarMedicos');
 Route::get('editarMedico/{id}',[PersonaController::class,'editarMedico'])->name('medico.edit');
@@ -34,4 +35,5 @@ Route::get('crearMedico',[PersonaController::class,'crearMedico'])->name('medico
 Route::post('registrarMedico/',[PersonaController::class,'guardarMedico'])->name('medico.store');
 Route::get('/borrarMedico/{nombre}',[PersonaController::class,'borrarMedico'])->name('medico.borrar');
 Route::put('deleteMedico/{id}',[PersonaController::class,'deleteMedico'])->name('medico.delete');
+Route::get('/Cita/borrar/{id}',[CitaController::class,'borrar'])->name('cita.borrar');
 Route::resource('/cita',CitaController::class);
