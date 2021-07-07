@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-
-
-<div class="container">
-    <h1 class="ml-5">Gestionar Citas</h1>
+        
+    <div class="container my-5">
+        <h1>Gestionar Citas</h1>
+    </div>    
     <div class="container my-5">
         <a class="btn btn-primary btn-lg text-body" href="{{route('cita.create')}}">Agendar cita</a>
-    </div>    
+    </div>
+    <div class="container">
     <table class="table table-bordered table-hover">
         <tr class="info">
             <th>Paciente</th>
@@ -17,10 +18,7 @@
             <th>Especialidad</th>
             <th>Estado</th>
             <th>Opción</th>
-        </tr>
-       
-
-        
+        </tr> 
         @foreach ($citas as $key=>$cita)
             <tr>
                 <td>{{$cita->Paciente->nombre}}</td>
@@ -40,7 +38,5 @@
             </tr>
         @endforeach
     </table>
-
-    
-</div>
+    </div>
 @endsection

@@ -9,6 +9,11 @@ class Persona_Especialidad extends Model
 {
     protected $table='persona_especialidad';
     use HasFactory;
+    public $timestamps =false;
+    protected $fillable = [
+        'idPersona',
+        'idEspecialidad'
+    ];
 
     public function persona(){
         //return $this->belongsTo(Persona::class,'personas','id','idPersona'); 

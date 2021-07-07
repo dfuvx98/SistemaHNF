@@ -53,16 +53,16 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'cedula' => ['required', 'string', 'max:255'],
+            'cedula' => ['required', 'string', 'max:10'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'telefono' => ['required', 'string', 'max:255'],
+            'telefono' => ['required', 'string', 'max:10'],
             'direccion' => ['required', 'string', 'max:255'],
             'ciudadResi' => ['required', 'string', 'max:255'],
             'genero' => ['required', 'string', 'max:255'],
-            
-            
-
-        ]);
+            ]
+        
+        
+        );
     }
 
     /**
@@ -79,7 +79,7 @@ class RegisterController extends Controller
         'genero' =>$data['genero'],]; 
         
         
-        $a= Persona::create([
+        $persona= Persona::create([
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
             'cedula' => $datos['cedula'],
@@ -100,7 +100,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make('C'.$data['cedula']),
             'role' => 'cliente',
-            'idPersona'=> $a->id
+            'idPersona'=> $persona->id
         ]);
         
     }

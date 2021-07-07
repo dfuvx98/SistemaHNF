@@ -52,6 +52,34 @@
                                 @enderror
                             </div>                                                        
                         </div>
+                        <div class="form-group row">
+                            <label for="especialidades" class="col-md-4 col-form-label text-md-right">{{ __('Especialidades') }}</label>
+                            <div class="col-md-6">
+                                <select class="form-control selection" id="especialidades" name="especialidades[]" multiple="multiple" required >
+                                    @if (isSet($especialidades))
+                                        @foreach ($especialidades as $especialidad)
+                                            @php 
+                                                $encontrado = false; 
+                                                if (isset($especialidadesMedicos)) {
+                                                    foreach ($especialidadesMedicos as $especialidadMedico) {
+                                                        if(intval($especialidadMedico->idEspecialidad) == intval($especialidad->id)) { $encontrado = true;}
+                                                    }
+                                                }
+                                            @endphp
+                                            @if ($encontrado)
+                                                <option value="{{ $especialidad->id}}" selected>{{ $especialidad->nombre}}</option>
+                                            @else 
+                                                <option value="{{ $especialidad->id}}" >{{ $especialidad->nombre}}</option>
+                                            @endif
+                                        @endforeach
+                                        @else
+                                        <option value="0">No existen especialidades</option>        
+                                    @endif
+                                </select>
+                            </div>                                                        
+                        </div>
+
+
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
@@ -122,12 +150,15 @@
                             <label for="genero" class="col-md-4 col-form-label text-md-right">{{ __('Genero') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="genero" type="text" class="form-control @error('genero') is-invalid @enderror" name="genero" value="{{ $medico->genero}}" required autocomplete="genero" autofocus>
-                                @error('genero')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select name="genero" id="genero" class="form-control">
+                                    @if ($medico->genero=='Masculino')    
+                                        <option value="Masculino" selected>Masculino</option>    
+                                        <option value="Femenino">Femenino</option>    
+                                    @else    
+                                        <option value="Masculino">Masculino</option>    
+                                        <option value="Femenino" selected>Femenino</option>    
+                                    @endif    
+                                </select>
                             </div>                                                        
                         </div>
 
@@ -146,3 +177,21 @@
     </div>
 </div>
 @endsection
+
+@section('css_extra')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .select2-container .select2-selection--single {
+        height: 37px;
+    }
+</style>
+@endsection
+@section('js_extras')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $('#especialidades').select2();
+</script>
+@endsection
+

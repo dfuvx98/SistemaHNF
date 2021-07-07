@@ -4,21 +4,36 @@
 
 
 <div class="container">
-    <h1>Registro de cliente</h1>
+    <h1>Registro de paciente</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Registro Cliente') }}</div>
+                <div class="card-header">{{ __('Registro Paciente') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('paciente.store') }}">
                         @csrf
+
+                        <div class="form-group row">
+                            <label for="cliente" class="col-md-4 col-form-label text-md-right">{{ __('Cliente') }}</label>
+                            <div class="col-md-6">
+                                <select class="form-control selection" id="cliente" name="cliente" required>
+                                    @if (isSet($clientes))
+                                        @foreach ($clientes as $cliente)
+                                            <option value="{{ $cliente->id}}">{{ $cliente->nombre}} {{ $cliente->apellido}}</option>        
+                                        @endforeach
+                                        @else
+                                        <option value="0">No existen clientes</option>        
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" @error('name') is-invalid @enderror name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control" @error('name') is-invalid @enderror name="name" value="{{ old('name') }}" required autocomplete="off" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -61,7 +76,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" @error('email') is-invalid @enderror name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control" @error('email') is-invalid @enderror name="email" value="{{ old('email') }}" autocomplete="email">
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -75,7 +90,7 @@
                             <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
 
                             <div class="col-md-6">
-                                <input id="telefono" type="text" class="form-control" @error('telefono') is-invalid @enderror name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" autofocus>
+                                <input id="telefono" type="text" class="form-control" @error('telefono') is-invalid @enderror name="telefono" value="{{ old('telefono') }}" autocomplete="telefono" autofocus>
 
                                 @error('telefono')
                                     <span class="invalid-feedback" role="alert">
@@ -118,7 +133,7 @@
                             <label for="fechaNacimiento" class="col-md-4 col-form-label text-md-right">{{ __('Fecha de Nacimiento') }}</label>
 
                             <div class="col-md-6">
-                                <input id="fechaNacimiento" type="date" class="form-control @error('fechaNacimiento') is-invalid @enderror" name="fechaNacimiento" value="{{ old('fechaNacimiento') }}" required autocomplete="fechaNacimiento" autofocus>
+                                <input id="fechaNacimiento" type="date" max="3030-12-30" class="form-control @error('fechaNacimiento') is-invalid @enderror" name="fechaNacimiento" value="{{ old('fechaNacimiento') }}" required autocomplete="fechaNacimiento" autofocus>
 
                                 @error('fechaNacimiento')
                                     <span class="invalid-feedback" role="alert">
@@ -157,4 +172,20 @@
         </div>
     </div>
 </div>
+@endsection
+@section('css_extra')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .select2-container .select2-selection--single {
+        height: 37px;
+    }
+</style>
+@endsection
+@section('js_extras')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $('#cliente').select2();
+</script>
 @endsection

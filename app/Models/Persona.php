@@ -20,7 +20,8 @@ class Persona extends Model
         'fechaNacimiento',
         'genero',
         'estado',
-        'idTipoPersona'
+        'idTipoPersona',
+        'idPersona'
     ];
     protected $table ='personas';
     use HasFactory;

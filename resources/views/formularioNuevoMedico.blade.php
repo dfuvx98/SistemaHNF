@@ -55,13 +55,15 @@
                         <div class="form-group row">
                             <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidades') }}</label>
                             <div class="col-md-6">
-                                <input id="especialidad" type="text" class="form-control"  @error('especialidad') is-invalid @enderror name="especialidad" required autocomplete="especialidad" autofocus>
-                                
-                                @error('especialidad')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select class="form-control selection" id="especialidad" name="especialidad[]" multiple="multiple" required >
+                                    @if (isSet($especialidades))
+                                        @foreach ($especialidades as $especialidad)
+                                            <option value="{{ $especialidad->id}}">{{ $especialidad->nombre}}</option>        
+                                        @endforeach
+                                        @else
+                                        <option value="0">No existen especialidades</option>        
+                                    @endif
+                                </select>
                             </div>                                                        
                         </div>
 
@@ -134,12 +136,10 @@
                             <label for="genero" class="col-md-4 col-form-label text-md-right">{{ __('Genero') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="genero" type="text" class="form-control" @error('genero') is-invalid @enderror name="genero" required autocomplete="genero" autofocus>
-                                @error('genero')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select name="genero" id="genero" class="form-control">
+                                    <option value="Masculino">Masculino</option>    
+                                    <option value="Femenino">Femenino</option>    
+                                  </select>
                             </div>                                                        
                         </div>
 
@@ -157,11 +157,23 @@
         </div>
     </div>
 </div>
+@endsection
+@section('css_extra')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .select2-container .select2-selection--single {
+        height: 37px;
+    }
+</style>
+@endsection
 
+@section('js_extras')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    $('especialidad').select2({
+    $('#especialidad').select2({
       width: '100%',
-      placeholder: "Select an Option",
+      placeholder: "Seleccione especialidades del médico",
       allowClear: true
     });
   </script>

@@ -35,5 +35,10 @@ Route::get('crearMedico',[PersonaController::class,'crearMedico'])->name('medico
 Route::post('registrarMedico/',[PersonaController::class,'guardarMedico'])->name('medico.store');
 Route::get('/borrarMedico/{nombre}',[PersonaController::class,'borrarMedico'])->name('medico.borrar');
 Route::put('deleteMedico/{id}',[PersonaController::class,'deleteMedico'])->name('medico.delete');
+Route::post('/registrarCliente',[PersonaController::class,'storeCliente'])->name('cliente.store');
+Route::get('/crearCliente',[PersonaController::class,'crearCliente'])->name('cliente.create');
+Route::post('/registrarPaciente',[PersonaController::class,'storePaciente'])->name('paciente.store');
+Route::get('/crearPaciente',[PersonaController::class,'crearPaciente'])->name('paciente.create');
 Route::get('/Cita/borrar/{id}',[CitaController::class,'borrar'])->name('cita.borrar');
+Route::put('/Cita/cancelar/{id}',[CitaController::class,'borrarCita'])->name('cita.delete');
 Route::resource('/cita',CitaController::class);

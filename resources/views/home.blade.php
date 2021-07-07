@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">{{ __('Bienvenido') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,10 +14,15 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('Bienvenido al Sistema de Hospital Nuestro Corazón') }}
                 </div>
             </div>
         </div>
     </div>
 </div>
+@if (request()->get('mensaje'))
+    <script>
+        alert('{{request()->get('mensaje')}}')
+    </script>
+@endif
 @endsection

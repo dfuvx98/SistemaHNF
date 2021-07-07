@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Cita extends Model
 {
     use HasFactory;
+    public $timestamps =false;
     protected $table ='citas';
+    protected $fillable = [
+        'idPersonaD',
+        'idPersonaP',
+        'fecha',
+        'hora',
+        'idEspecialidad'
+    ];
     //Protected para campos que no se pueden ingresar masivamente
     protected $guarded = [ 'id'];
 

@@ -13,19 +13,12 @@
                 <div class="card-header">{{ __('Agendar') }}</div>
 
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" onsubmit="return verificarForm(event)" action="{{ route('cita.store')}}">
                         @csrf
                         <div class="form-group row">
-                            <label for="Paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
+                            <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
                             <div class="col-md-6">
-                                <!--
-                            <select name="paciente" id="paciente" class="form-control">
-                                foreach ($personas as $persona)
-                                <option value="{ $persona->id}">{$persona->nombre}</option>    
-                                endforeach
-                              </select>
-                            -->
-                              <select class="form-control selection" id="paciente" name="especialidad">
+                              <select class="form-control selection" id="paciente" name="paciente">
                                 @if (isSet($personas))
                                     @foreach ($personas as $persona)
                                         <option value="{{ $persona->id}}">{{ $persona->nombre}} {{ $persona->apellido}}</option>        
@@ -42,7 +35,7 @@
                             <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidad') }}</label>
                             
                             <div class="col-md-6">
-                                <select class="form-control selection" id="especialidad" name="especialidad">
+                                <select class="form-control selection" id="especialidad" name="especialidad" required>
                                     @if (isSet($especialidades))
                                         @foreach ($especialidades as $especialidad)
                                             <option value="{{ $especialidad->id}}">{{ $especialidad->nombre}}</option>        
@@ -58,7 +51,7 @@
                             <label for="medico" class="col-md-4 col-form-label text-md-right">{{ __('Médico') }}</label>
                             
                             <div class="col-md-6">
-                                <select class="form-control selection" id="medico" name="medico">
+                                <select class="form-control selection" id="medico" name="medico" required>
 
                                 </select>
                             </div>
@@ -68,7 +61,7 @@
                             <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="fecha" type="date" class="form-control" @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
+                                <input id="fecha" type="date" class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
                                 @error('fecha')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -119,9 +112,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    console.log("script cargado");
-    
-    function changeSelector(id){
+        function changeSelector(id){
         $.ajax({
             type: 'get',
             url: '/especialidades/medicos/'+id,
@@ -161,5 +152,30 @@
         }
     });
     $('#medico').select2();
+
+    function fueraDeHorario() {
+        const horaTxt = document.getElementById('hora').value.split(':');
+        var hora = parseInt(horaTxt[0]);
+        var minutos = parseInt(horaTxt[1]);
+        var fueraHorario = false;
+        if((hora < 9 || (hora >= 12 && minutos >  0) ) && (hora < 16 || (hora >= 18 && minutos > 0))) {
+            fueraHorario=true
+        }
+        if (!fueraHorario){
+            if(minutos != 0  && minutos != 30 ) {
+                fueraHorario=true
+            }
+        }
+        return fueraHorario;
+    }
+
+    function verificarForm(event){
+        if (fueraDeHorario()) {
+            alert('hora fuera de horario');
+            return false;
+        }
+        return true;
+    }
+    
 </script>
 @endsection
