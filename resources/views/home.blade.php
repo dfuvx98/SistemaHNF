@@ -13,8 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('Bienvenido al Sistema de Hospital Nuestro Corazón') }}
+                    {{ __('Bienvenido al Sistema de Hospital Nuestro Corazón ') }}
                 </div>
             </div>
         </div>

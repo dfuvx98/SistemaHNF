@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container my-5">
-    <h1>Gestion Medicos</h1>
+    <h1>Gestión Médicos</h1>
 </div>
 <div class="container my-5">
     <a class="btn btn-primary btn-lg text-body" href="{{route('medico.create')}}">Registrar Médico</a>
@@ -19,9 +19,6 @@
                 <th>Email</th>
                 <th>Especialidades</th>
                 <th>Teléfono</th>
-                <th>Dirección</th>
-                <th>Ciudad Residencia</th>
-                <th>Fecha de Nacimiento</th>
                 <th>Género</th>
                 <th colspan="2">Opciones</th>
             </tr>
@@ -39,9 +36,6 @@
                         @endforeach
                     </td>
                     <td>{{$medico->telefono}}</td>
-                    <td>{{$medico->direccion}}</td>
-                    <td>{{$medico->ciudadResi}}</td>
-                    <td>{{$medico->fechaNacimiento}}</td>
                     <td>{{$medico->genero}}</td>
                     <td><a href="{{route('medico.edit', $medico->id)}}">Editar</a></td>
                     <td><a href="{{route('medico.borrar', $medico->id)}}">Borrar</a></td>

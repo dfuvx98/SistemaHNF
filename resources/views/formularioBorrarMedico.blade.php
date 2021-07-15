@@ -16,7 +16,7 @@
                             <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="nombre" type="text" readonly class="form-control-plaintext" class="form-control" @error('nombre') is-invalid @enderror name="nombre" value="{{ $medico->nombre}}" required autocomplete="nombre">
+                                <input id="nombre" type="text" readonly class="form-control-plaintext" class="form-control" @error('nombre') is-invalid @enderror name="nombre" value="{{ $medico->nombre}}" required autocomplete="nombre" disabled>
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -29,7 +29,7 @@
                             <label for="apellido" class="col-md-4 col-form-label text-md-right">{{ __('Apellido') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="apellido" type="text" readonly class="form-control-plaintext" class="form-control" @error('apellido') is-invalid @enderror name="apellido" value="{{ $medico->apellido}}" required autocomplete="apellido">
+                                <input id="apellido" type="text" readonly class="form-control-plaintext" class="form-control" @error('apellido') is-invalid @enderror name="apellido" value="{{ $medico->apellido}}" required autocomplete="apellido" disabled>
                                 @error('apellido')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -43,7 +43,7 @@
                             <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cédula') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="cedula" type="text" readonly class="form-control-plaintext"  class="form-control" @error('cedula') is-invalid @enderror name="cedula" value="{{ $medico->cedula}}" required autocomplete="cedula">
+                                <input id="cedula" type="text" readonly class="form-control-plaintext"  class="form-control" @error('cedula') is-invalid @enderror name="cedula" value="{{ $medico->cedula}}" required autocomplete="cedula" disabled>
                                 @error('cedula')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -56,7 +56,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="email" type="email" readonly class="form-control-plaintext" class="form-control" @error('email') is-invalid @enderror name="email" value="{{ $medico->email}}" required autocomplete="email">
+                                <input id="email" type="email" readonly class="form-control-plaintext" class="form-control" @error('email') is-invalid @enderror name="email" value="{{ $medico->email}}" required autocomplete="email" disabled>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -69,7 +69,7 @@
                             <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="telefono" type="text" readonly class="form-control-plaintext" class="form-control" @error('telefono') is-invalid @enderror name="telefono" value="{{ $medico->telefono}}" required autocomplete="telefono">
+                                <input id="telefono" type="text" readonly class="form-control-plaintext" class="form-control" @error('telefono') is-invalid @enderror name="telefono" value="{{ $medico->telefono}}" required autocomplete="telefono" disabled>
                                 @error('telefono')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -82,7 +82,7 @@
                             <label for="direccion" class="col-md-4 col-form-label text-md-right">{{ __('Dirección') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="direccion" type="text" readonly class="form-control-plaintext" class="form-control" @error('direccion') is-invalid @enderror name="direccion" value="{{ $medico->direccion}}" required autocomplete="direccion">
+                                <input id="direccion" type="text" readonly class="form-control-plaintext" class="form-control" @error('direccion') is-invalid @enderror name="direccion" value="{{ $medico->direccion}}" required autocomplete="direccion" disabled>
                                 @error('direccion')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -95,7 +95,7 @@
                             <label for="ciudadResi" class="col-md-4 col-form-label text-md-right">{{ __('Ciudad de Residencia') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="ciudadResi" type="text" readonly class="form-control-plaintext" class="form-control" @error('ciudadResi') is-invalid @enderror name="ciudadResi" value="{{ $medico->ciudadResi}}" required autocomplete="ciudadResi">
+                                <input id="ciudadResi" type="text" readonly class="form-control-plaintext" class="form-control" @error('ciudadResi') is-invalid @enderror name="ciudadResi" value="{{ $medico->ciudadResi}}" required autocomplete="ciudadResi" disabled>
                                 @error('ciudadResi')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -108,7 +108,7 @@
                             <label for="fechaNacimiento" class="col-md-4 col-form-label text-md-right">{{ __('Fecha de Nacimiento') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="fechaNacimiento" type="date" readonly class="form-control-plaintext" class="form-control" @error('fechaNacimiento') is-invalid @enderror name="fechaNacimiento" value="{{ $medico->fechaNacimiento}}" required autocomplete="fechaNacimiento">
+                                <input id="fechaNacimiento" type="date" readonly class="form-control-plaintext" class="form-control" @error('fechaNacimiento') is-invalid @enderror name="fechaNacimiento" value="{{ $medico->fechaNacimiento}}" required autocomplete="fechaNacimiento" disabled>
                                 @error('fechaNacimiento')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -121,7 +121,7 @@
                             <label for="genero" class="col-md-4 col-form-label text-md-right">{{ __('Genero') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="genero" type="text" readonly class="form-control-plaintext" class="form-control" @error('genero') is-invalid @enderror name="genero" value="{{ $medico->genero}}" required autocomplete="genero">
+                                <input id="genero" type="text" readonly class="form-control-plaintext" class="form-control" @error('genero') is-invalid @enderror name="genero" value="{{ $medico->genero}}" required autocomplete="genero" disabled>
                                 @error('genero')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

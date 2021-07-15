@@ -30,7 +30,7 @@
                             <a href="{{route('especialidades.edit', $especialidad->id)}}">Editar</a></td>
                         @endif
                     <td>@if ($especialidad->estado==1)
-                        <a href="{{route('especialidades.borrar', $especialidad->id)}}">Borrar</a></td>
+                        <a href="{{route('especialidades.borrar', $especialidad->id)}}">Desactivar</a></td>
                         @endif    
                 @endif
                 

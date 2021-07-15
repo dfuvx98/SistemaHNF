@@ -25,7 +25,7 @@ class Persona extends Model
     ];
     protected $table ='personas';
     use HasFactory;
-
+    
     public function Tipo_Persona(){
         return $this->belongsTo(Tipo_Persona::class);
     }
