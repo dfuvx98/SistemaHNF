@@ -88,7 +88,7 @@
             <div class="modal-footer justify-content-center text-center">
                 <div class="text-center">
                     <button type="button" class="btn btn-success" onclick="AgendarCitas()">Agendar</button>
-                    <button type="button" class="btn btn-danger" id="botonCancelar" style="display: none;">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -316,7 +316,7 @@
                 const selectMedico = document.querySelector('#medico');
                 const medico = selectMedico.options[selectMedico.selectedIndex].text;
                 const nombreMedico = medico.split(' ');
-                //desde aquí copio para
+
                 var ajax = new XMLHttpRequest();
                 ajax.open('POST', '/Cita/modificar', true);
                 let data = new FormData(form);
@@ -342,6 +342,29 @@
             }
         }
     }
+
+    function Cancelar() {
+
+        if ( idAModificar > 0  && eventAModificar != null) {
+        var ajax = new XMLHttpRequest();
+        ajax.open('POST', '/Cita/cancelar', true);
+            let data = new FormData();
+            data.append('id_cita',idAModificar);
+            ajax.setRequestHeader('X-CSRF-TOKEN', document.querySelector("input[name='_token']").value);
+            ajax.send(data);
+            ajax.onload = () => {
+                if(ajax.responseText){
+                    const response = JSON.parse(ajax.responseText);
+                    console.log(response);
+                    if(response.success){
+                        eventAModificar.setProp('color','#455a64')
+                        $('#modalAgendaCita').modal('hide');
+                        }
+                    }
+                }
+            }
+        }
+
 
     function fueraDeHorario() {
         const horaTxt = document.getElementById('hora').value.split(':');

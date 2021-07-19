@@ -136,13 +136,18 @@ class CitaController extends Controller
         return view ('cancelarCitas',compact('cita'));
     }
 
-    public function borrarCita($id){
-        $cita = Cita::with('Paciente','Medico','Especialidades')->findOrFail($id);
-        $cita->estado =False;
-        if($cita ->save()){
-            return redirect()->route('cita.index');
+    public function borrarCita(Request $request){
+        $cita = Cita::find($request['id_cita']);
+        $objeto = [];
+        if($cita){
+            $cita->estado =0;
+            $cita->save();
+            $objeto['success'] = 'Se cancelo la cita con exito';
+            $objeto['cita'] = $cita;
+            return response()->json($objeto);
         }else{
-        return redirect()->route('citas.borrar');
+            $objeto['error'] = 'No se encontro cita a editar';
+            return response()->json($objeto);
         }
     }
 
