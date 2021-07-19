@@ -143,7 +143,7 @@ class PersonaController extends Controller
         $clientes = Persona::where('idTipoPersona',2)->get();
         return view('formularioNuevoPaciente',compact('paciente','clientes'));
     }
-
+    
     public function crearPacienteCliente($id){
         $paciente = new Persona;
         $clientes = Persona::where('id', $id)->where('idTipoPersona',2)->get();

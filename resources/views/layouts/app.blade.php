@@ -19,6 +19,11 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en'
+                    rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ asset('css/mdDateTimePicker.css') }}">
+    
     @yield('css_extra')
     
 
@@ -133,7 +138,7 @@
                             <a class="nav-link" href="">{{ __('Gestión Médicos') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Gestión citas') }}</a>
+                            <a class="nav-link" href="{{ route('cita.index') }}">{{ __('Gestión citas') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">{{ __('Registrar Cliente') }}</a>
@@ -169,5 +174,11 @@
         </main>
     </div>
 </body>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.js"></script>
+<script src="{{asset('js/moment.min.js')}}"></script>
+<script src="{{asset('js/moment-with-locales.min.js')}}"></script>
+<script src="{{asset('js/draggabilly.pkgd.min.js')}}"></script>
+<script src="{{asset('js/mdDateTimePicker.js')}}"></script>
 @yield('js_extras')
 </html>
