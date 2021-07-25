@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+    @csrf
     <div class="container my-5">
         <h1>Gestionar Citas</h1>
     </div>
@@ -23,73 +23,234 @@
               </button>
             </div>
             <div class="modal-body">
-                <form id="formCita">
-                    @csrf
-                    <div class="form-group row">
-                        <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
-                        <div class="col-md-6">
-                        <select class="form-control selection" id="paciente" name="paciente">
-                            @if (isSet($personas))
-                                @foreach ($personas as $persona)
-                                    <option value="{{ $persona->id}}">{{ $persona->nombre}} {{ $persona->apellido}}</option>
-                                @endforeach
-                                @else
-                                <option value="0">No existen pacientes</option>
-                            @endif
-                        </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidad') }}</label>
-
-                        <div class="col-md-6">
-                            <select class="form-control selection" id="especialidad" name="especialidad" required>
-                                @if (isSet($especialidades))
-                                    @foreach ($especialidades as $especialidad)
-                                        <option value="{{ $especialidad->id}}">{{ $especialidad->nombre}}</option>
+                @if (Auth::user()->role !== 'medico')
+                    <form id="formCita">
+                        <div class="form-group row">
+                            <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
+                            <div class="col-md-6">
+                            <select class="form-control selection" id="paciente" name="paciente">
+                                @if (isSet($personas))
+                                    @foreach ($personas as $persona)
+                                        <option value="{{ $persona->id}}">{{ $persona->nombre}} {{ $persona->apellido}}</option>
                                     @endforeach
                                     @else
-                                    <option value="0">No existen especialidades</option>
+                                    <option value="0">No existen pacientes</option>
                                 @endif
                             </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="medico" class="col-md-4 col-form-label text-md-right">{{ __('Médico') }}</label>
+                        <div class="form-group row">
+                            <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidad') }}</label>
 
-                        <div class="col-md-6">
-                            <select class="form-control selection" id="medico" name="medico" required>
-                                <option value="0">No existen medico de esta especialidad</option>
-                            </select>
+                            <div class="col-md-6">
+                                <select class="form-control selection" id="especialidad" name="especialidad" required>
+                                    @if (isSet($especialidades))
+                                        @foreach ($especialidades as $especialidad)
+                                            <option value="{{ $especialidad->id}}">{{ $especialidad->nombre}}</option>
+                                        @endforeach
+                                        @else
+                                        <option value="0">No existen especialidades</option>
+                                    @endif
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
+                        <div class="form-group row">
+                            <label for="medico" class="col-md-4 col-form-label text-md-right">{{ __('Médico') }}</label>
 
-                        <div class="col-md-6">
-                            <input id="fecha" type="date" onfocus="abrirDateicker(this)"  readonly class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
-                            <span class="invalid-feedback" role="alert">
-                                <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
-                            </span>
+                            <div class="col-md-6">
+                                <select class="form-control selection" id="medico" name="medico" required >
+                                    <option value="0">No existen medico de esta especialidad</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="hora" class="col-md-4 col-form-label text-md-right">{{ __('Hora') }}</label>
+                        <div class="form-group row">
+                            <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
 
-                        <div class="col-md-6">
-                            <input id="hora" readonly type="time" value="10:00" class="form-control" onfocus="abrirTimerPicker(this)" @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
-                            <span class="invalid-feedback" role="alert">
-                                <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
-                            </span>
+                            <div class="col-md-6">
+                                <input id="fecha" type="date" onfocus="abrirDateicker(this)"   class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="form-group row">
+                            <label for="hora" class="col-md-4 col-form-label text-md-right">{{ __('Hora') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="hora" readonly type="time" value="10:00" class="form-control" onfocus="abrirTimerPicker(this)" @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                @endif
             </div>
             <div class="modal-footer justify-content-center text-center">
                 <div class="text-center">
-                    <button type="button" class="btn btn-success" onclick="AgendarCitas()">Agendar</button>
-                    <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                    <div class="row">
+                    @if (Auth::user()->role !== 'medico')
+                        <div class="col">
+                            <button type="button" class="btn btn-success" onclick="AgendarCitas()">Agendar</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
+                        </div>
+                    @else
+                        <button type="button" class="btn btn-success" onclick="Recetar()">Confirmar</button>
+                    @endif
+                        <div class="col">
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal para ver cita que ya esté agendada, falta hacer que guarde los datos -->
+      <div class="modal fade " id="modalVerCita" tabindex="-1" role="dialog" aria-labelledby="modalVerCitaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalVerCitaLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                @if (Auth::user()->role !== 'medico')
+                    <form id="formCita">
+                        <div class="form-group row">
+                            <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
+                            <div class="col-md-6">
+                                <input class ="form-control" id="paciente" name="paciente" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidad') }}</label>
+                            <div class="col-md-6">
+                                <input class ="form-control"  id="especialidad" name="especialidad" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="medico" class="col-md-4 col-form-label text-md-right">{{ __('Médico') }}</label>
+                            <div class="col-md-6">
+                                <input class ="form-control"  id="medico" name="medico" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
+                            <div class="col-md-6">
+                                <input id="fecha" type="date" onfocus="abrirDateicker(this)"   class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="hora" class="col-md-4 col-form-label text-md-right">{{ __('Hora') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="hora" type="time" value="10:00" class="form-control" onfocus="abrirTimerPicker(this)" @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                @endif
+            </div>
+            <div class="modal-footer justify-content-center text-center">
+                <div class="text-center">
+                    <div class="row">
+                    @if (Auth::user()->role !== 'medico')
+                        <div class="col">
+                            <button type="button" class="btn btn-success" onclick="AgendarCitas()">Agendar</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
+                        </div>
+                    @else
+                        <button type="button" class="btn btn-success" onclick="Recetar()">Confirmar</button>
+                    @endif
+                        <div class="col">
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Modal incompleto de si toca la consulta hacerla en modal  -->
+      <div class="modal fade " id="modalRegistrarConsulta" tabindex="-1" role="dialog" aria-labelledby="modalRegistrarConsultaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalRegistrarConsultaLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <form id="formCita">
+                        <div class="form-group row">
+                            <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombres') }}</label>
+                            <div class="col-md-6">
+                                <input class ="form-control" id="nombre" name="nombre" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="apellido" class="col-md-4 col-form-label text-md-right">{{ __('Apellidos') }}</label>
+                            <div class="col-md-6">
+                                <input class ="form-control"  id="apellido" name="apellido" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cédula') }}</label>
+                            <div class="col-md-6">
+                                <input class ="form-control"  id="cedula" name="cedula" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
+                            <div class="col-md-6">
+                                <input id="fecha" type="date" readonly onfocus="abrirDateicker(this)"   class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="hora" class="col-md-4 col-form-label text-md-right">{{ __('Hora') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="hora" readonly type="time" disabled value="10:00" class="form-control" onfocus="abrirTimerPicker(this)" @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+            <div class="modal-footer justify-content-center text-center">
+                <div class="text-center">
+                    <div class="row">
+                    @if (Auth::user()->role !== 'medico')
+                        <div class="col">
+                            <button type="button" class="btn btn-success" onclick="AgendarCitas()">Agendar</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
+                        </div>
+                    @else
+                        <button type="button" class="btn btn-success" onclick="Recetar()">Confirmar</button>
+                    @endif
+                        <div class="col">
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
           </div>
@@ -110,6 +271,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    const rolUsuario = '{{Auth::user()->role}}';
     // seleccionamos el contenedor o div donde se va a dibujar el full calendar
     const calendarEl = document.getElementById('fullCalendar');
     // la variable la inicializamos vacía
@@ -161,9 +323,12 @@
                 displayEventTime: true,
                 slotMaxTime:'18:00:00',
                 selectable: true,
+                droppable: false,
+                editable: false,
                 //funcion en caso de hacer click en vacio
                 select: function (event) {
                     if(event.view.type !== 'dayGridMonth') {
+                        if ( rolUsuario === 'medico') { return;}
                         $('#modalAgendaCita').modal('show');
                         $('#modalAgendaCita').on('hide.bs.modal', hiddenPickers);
                         TitleModal = 'Agendar Citas';
@@ -181,45 +346,153 @@
                         calendar.changeView('timeGridDay');
                     }
                 },
-                eventDrop: function (info) {
+                /*eventDrop: function (info) {
+                    if ( rolUsuario === 'medico') { info.revert(); return;}
                     const date = new Date(info.event.start)
                     if ( date < new Date()) {
                         info.revert();
                         return
                     }
                     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+                    const hora = date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit' });
+                    const fecha = date.toISOString().split('T')[0]
                     customButtons.fire({
                             title: 'Está seguro de continuar?',
-                            text: "La cita será movida a \n"+ date.toLocaleDateString('es-ES', options) + " a las "+date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit' }),
+                            text: "La cita será movida a \n"+ date.toLocaleDateString('es-ES', options) + " a las " + hora,
                             icon: 'warning',
                             showCancelButton: true,
                             showCloseButton: true,
                             confirmButtonText: 'Sí, continuar!',
                             cancelButtonText: 'No, Cancelar!',
                             }).then((result) => {
-                            if (result.isConfirmed) {
-                                idAModificar = info.event.id
-                                eventAModificar = info.event
-                            } else {
-                                info.revert();
-                            }
+                                if (result.isConfirmed) {
+                                    idAModificar = info.event.id
+                                    eventAModificar = info.event
+                                    var ajax = new XMLHttpRequest();
+                                    ajax.open('POST', '/Cita/dropUpdate', true);
+                                    let data = new FormData();
+                                    data.append('id_cita',idAModificar);
+                                    data.append('hora',hora);
+                                    data.append('fecha',fecha);
+                                    //codigo para poner la cita en la base de datos
+                                    ajax.setRequestHeader('X-CSRF-TOKEN', document.querySelector("input[name='_token']").value);
+                                    ajax.send(data);
+                                    //codigo para meter la cita en el fullCalendar
+                                    ajax.onload = () => {
+                                        if(ajax.responseText){
+                                            console.log('response', ajax.responseText);
+                                            const response = JSON.parse(ajax.responseText);
+                                            if(response.success){
+                                                return;
+                                            }
+                                        }
+                                        info.revert();
+                                    }
+                                } else {
+                                    info.revert();
+                                }
                         })
-                },
-                eventClick: function (info) {
-                    console.log(info.event.id);
+                },*/
+                /*eventClick: function (info) {
+                    //llamar modal
                     $('#modalAgendaCita').modal('show');
                     $('#modalAgendaCita').on('hide.bs.modal', hiddenPickers);
-                    TitleModal = 'Modificar Cita';
-                    document.getElementById('modalAgendaCitaLabel').innerHTML = TitleModal
-                    const date = new Date(info.event.start)
-                    timePicker.time = moment(date);
-                    datePicker.time = moment(date);
-                    document.getElementById('fecha').value = date.toISOString().split('T')[0];
-                    let hora = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    document.getElementById('hora').value = date.getHours() < 10 && hora[0] !== '0' ? '0'+hora : hora;
-                    idAModificar = info.event.id
-                    eventAModificar = info.event
-                    document.getElementById('botonCancelar').style.display = 'block';
+                    if (rolUsuario !== 'medico') {
+                        //poner titulo al modal si se modifica
+                        TitleModal = 'Modificar Cita';
+                        //Metet el titulo en el modal
+                        document.getElementById('modalAgendaCitaLabel').innerHTML = TitleModal
+                        //llamar datos de la cita asignada en el full calendar
+                        datos =info.event._def.extendedProps.data;
+                        //coger la fecha del evento
+                        const date = new Date(info.event.start)
+                        timePicker.time = moment(date);
+                        datePicker.time = moment(date);
+
+                        document.getElementById('fecha').value = date.toISOString().split('T')[0];
+                        let hora = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        document.getElementById('hora').value = date.getHours() < 10 && hora[0] !== '0' ? '0'+hora : hora;
+                        idAModificar = info.event.id
+                        eventAModificar = info.event
+                        document.getElementById('botonCancelar').style.display = 'block';
+                        console.log('datos', datos);
+                        //si hay datos del paciente asignar paciente en el modal
+                        if (datos.paciente) {
+
+                            var paciente = $('#paciente');
+                            paciente.val(datos.idPersonaP).change();
+                            $("#paciente option").attr("selected", false);
+                            $("#paciente option").prop("selected", false);
+                            $("#paciente option[value='"+datos.idPersonaP+"']").attr("selected", true);
+                            $("#paciente option[value='"+datos.idPersonaP+"']").prop("selected", true);
+                            $('#select2-paciente-container').html(datos.paciente.nombre+' '+datos.paciente.apellido)
+                        }
+                        if (datos.especialidades) {
+                            var especialidad = $('#especialidad');
+                            especialidad.val(datos.idEspecialidad).change();
+                            $("#paciente option").attr("selected", false);
+                            $("#paciente option").prop("selected", false);
+                            $("#paciente option[value='"+datos.idEspecialidad+"']").attr("selected", true);
+                            $("#paciente option[value='"+datos.idEspecialidad+"']").prop("selected", true);
+                            $('#select2-especialidad-container').html(datos.especialidades.nombre);
+                            changeSelector(datos.idEspecialidad, datos.medico);
+                        }
+                    }
+                    else {
+                        TitleModal = 'Recetar Cita';
+                        //Metet el titulo en el modal
+                        document.getElementById('modalAgendaCitaLabel').innerHTML = TitleModal
+                    }
+                }*/eventClick: function (info) {
+                    //llamar modal
+                    $('#modalVerCita').modal('show');
+                    $('#modalVerCita').on('hide.bs.modal', hiddenPickers);
+                    if (rolUsuario !== 'medico') {
+                        //poner titulo al modal si se modifica
+                        TitleModal = 'Datos Cita';
+                        //Metet el titulo en el modal
+                        document.getElementById('modalVerCitaLabel').innerHTML = TitleModal
+                        //llamar datos de la cita asignada en el full calendar
+                        datos =info.event._def.extendedProps.data;
+                        //coger la fecha del evento
+                        const date = new Date(info.event.start)
+                        timePicker.time = moment(date);
+                        datePicker.time = moment(date);
+
+                        document.getElementById('fecha').value = date.toISOString().split('T')[0];
+                        let hora = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        document.getElementById('hora').value = date.getHours() < 10 && hora[0] !== '0' ? '0'+hora : hora;
+                        idAModificar = info.event.id
+                        eventAModificar = info.event
+                        document.getElementById('botonCancelar').style.display = 'block';
+                        console.log('datos', datos);
+                        //si hay datos del paciente asignar paciente en el modal
+                        if (datos.paciente) {
+
+                            var paciente = $('#paciente');
+                            paciente.val(datos.idPersonaP).change();
+                            $("#paciente option").attr("selected", false);
+                            $("#paciente option").prop("selected", false);
+                            $("#paciente option[value='"+datos.idPersonaP+"']").attr("selected", true);
+                            $("#paciente option[value='"+datos.idPersonaP+"']").prop("selected", true);
+                            $('#select2-paciente-container').html(datos.paciente.nombre+' '+datos.paciente.apellido)
+                        }
+                        if (datos.especialidades) {
+                            var especialidad = $('#especialidad');
+                            especialidad.val(datos.idEspecialidad).change();
+                            $("#paciente option").attr("selected", false);
+                            $("#paciente option").prop("selected", false);
+                            $("#paciente option[value='"+datos.idEspecialidad+"']").attr("selected", true);
+                            $("#paciente option[value='"+datos.idEspecialidad+"']").prop("selected", true);
+                            $('#select2-especialidad-container').html(datos.especialidades.nombre);
+                            changeSelector(datos.idEspecialidad, datos.medico);
+                        }
+                    }
+                    else {
+                        TitleModal = 'Consulta de Cita';
+                        //Metet el titulo en el modal
+                        document.getElementById('modalAgendaCitaLabel').innerHTML = TitleModal
+                    }
                 },
                 eventRemove: function(dd){
                     console.log('dd',dd)
@@ -289,7 +562,7 @@
         }
     }
 
-    function Modificar() {
+    /*function Modificar() {
         if ( idAModificar > 0  && eventAModificar != null) {
             const fueraDeHora = fueraDeHorario();
             const form = document.getElementById('formCita');
@@ -342,9 +615,8 @@
             }
         }
     }
-
+    */
     function Cancelar() {
-
         if ( idAModificar > 0  && eventAModificar != null) {
         var ajax = new XMLHttpRequest();
         ajax.open('POST', '/Cita/cancelar', true);
@@ -355,7 +627,6 @@
             ajax.onload = () => {
                 if(ajax.responseText){
                     const response = JSON.parse(ajax.responseText);
-                    console.log(response);
                     if(response.success){
                         eventAModificar.setProp('color','#455a64')
                         $('#modalAgendaCita').modal('hide');
@@ -386,6 +657,7 @@
     function hiddenPickers () {
         idAModificar = 0;
         eventAModificar = null;
+        if ( rolUsuario === 'medico') { return;}
         timePicker.hide();
         datePicker.hide();
     }
@@ -414,7 +686,8 @@
         });
     }
 
-    function changeSelector(id){
+    function changeSelector(id, infoMedico){
+        console.log('cambiando Esecialidad')
         $.ajax({
             type: 'get',
             //Voy con Url de la ruta en vez del nombre
@@ -438,6 +711,15 @@
                             }
                         });
                     }
+                    if (infoMedico) {
+                        medicos.val(infoMedico.id).change();
+                        $("#paciente option").attr("selected", false);
+                        $("#paciente option").prop("selected", false);
+                        $("#paciente option[value='"+infoMedico.id+"']").attr("selected", true);
+                        $("#paciente option[value='"+infoMedico.id+"']").prop("selected", true);
+                        $('#select2-paciente-container').html(infoMedico.nombre+' '+infoMedico.apellido)
+
+                    }
                 } else {
                     var option = new Option('No existen medico de esta especialidad', 0, false, true);
                     medicos.append(option).trigger('change');
@@ -457,7 +739,7 @@
     $('#especialidad').select2({
         dropdownParent: $('#modalAgendaCita'),
         templateSelection: function (data) {
-            changeSelector(data.id);
+            changeSelector(data.id, null);
             return data.text
         }
     });
@@ -473,6 +755,7 @@
             if(data.error){
 
             } else {
+                console.log('citas', data);
                 for (const key in data) {
                     // se llama evento a cada item del full calendar
                     const cita = data[key];
@@ -514,6 +797,11 @@
             console.log('error', data);
         }
     });
+
+    function Recetar() {
+        console.log('recetar')
+    }
+
   </script>
 
   <style>

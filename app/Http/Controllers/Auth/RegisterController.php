@@ -22,7 +22,7 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-    
+
     use RegistersUsers;
 
     /**
@@ -60,8 +60,8 @@ class RegisterController extends Controller
             'ciudadResi' => ['required', 'string', 'max:255'],
             'genero' => ['required', 'string', 'max:255'],
             ]
-        
-        
+
+
         );
     }
 
@@ -73,12 +73,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-    
+
         $datos= ['nombre' => $data['name'],'apellido' => $data['surname'],'cedula' => $data['cedula'],'email' => $data['email'],
-        'telefono' =>$data['telefono'],'direccion' =>$data['direccion'],'ciudadResi' =>$data['ciudadResi'],'fechaNacimiento' =>$data['fechaNacimiento'], 
-        'genero' =>$data['genero'],]; 
-        
-        
+        'telefono' =>$data['telefono'],'direccion' =>$data['direccion'],'ciudadResi' =>$data['ciudadResi'],'fechaNacimiento' =>$data['fechaNacimiento'],
+        'genero' =>$data['genero'],];
+
+
         $persona= Persona::create([
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
@@ -92,9 +92,9 @@ class RegisterController extends Controller
             'estado'=> '1',
             'idTipoPersona'=>'2'
         ]);
-        
-        
-        
+
+
+
         return User::create([
             'name' => 'C'.$data['cedula'],
             'email' => $data['email'],
@@ -102,6 +102,6 @@ class RegisterController extends Controller
             'role' => 'cliente',
             'idPersona'=> $persona->id
         ]);
-        
+
     }
 }

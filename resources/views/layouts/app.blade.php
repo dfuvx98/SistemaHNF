@@ -12,29 +12,36 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.css">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en'
-                    rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en'rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ asset('css/mdDateTimePicker.css') }}">
-    
     @yield('css_extra')
-    
+
 
 </head>
 <body class="bg-info">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-primary shadow-sm">
             <div class="container">
+                @if (Auth::user())
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     Hospital Nuestro Corazón
                 </a>
+                @else
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    Hospital Nuestro Corazón
+                </a>
+                @endif
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -61,7 +68,7 @@
                                 </li>
                             @endif
                         @else
-                        
+
                         @if (Auth::user()->role =='administrador')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('especialidades.index') }}">{{ __('Gestión Especialidades') }}</a>
@@ -96,7 +103,7 @@
                                     </form>
                                 </div>
                             </li>
-                        @endif   
+                        @endif
                         @if (Auth::user()->role =='medico')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('especialidades.index') }}">{{ __('Gestión Especialidades') }}</a>
@@ -175,6 +182,7 @@
     </div>
 </body>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.js"></script>
 <script src="{{asset('js/moment.min.js')}}"></script>
 <script src="{{asset('js/moment-with-locales.min.js')}}"></script>

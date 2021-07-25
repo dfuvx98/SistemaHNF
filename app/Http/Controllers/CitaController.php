@@ -11,6 +11,8 @@ class CitaController extends Controller
 {
     //
 
+    /*
+    Método para cuando se usaba el formulario para crear la instancia de citas cita en la vista del formulario para agendar citas
     public function create(){
 
         if(Auth::user()){
@@ -26,7 +28,10 @@ class CitaController extends Controller
             return view('agendarCitas',compact('cita','personas','especialidades'));
         }
         return redirect('/login');
-    }
+    }*/
+
+    /*
+    Método para cuando se usaba el formulario para guardar la cita que se quería agendar
 
     public function store(Request $request){
 
@@ -46,7 +51,7 @@ class CitaController extends Controller
             return redirect()->route('cita.index');
         }
 
-    }
+    }*/
 
     public function agendarCita(Request $request) {
         $agendada = Cita::where('fecha',$request['fecha'])->where('hora',$request['hora'])->where('idPersonaD',$request['medico'])->where('estado',1)->get();
@@ -69,6 +74,8 @@ class CitaController extends Controller
         }
     }
 
+    /*
+
     public function modificarCita(Request $request) {
         $cita = Cita::find($request['id_cita']);
         $objeto = [];
@@ -87,12 +94,30 @@ class CitaController extends Controller
             $objeto['error'] = 'No se encontro cita a editar';
             return response()->json($objeto);
         }
-    }
+    }*/
+
+    /*public function dropUpdateCitas(Request $request) {
+        $cita = Cita::find($request['id_cita']);
+        $objeto = [];
+
+        if( $cita){
+            $cita['fecha'] = $request['fecha'];
+            $cita['hora'] = $request['hora'];
+            $cita->save();
+            $objeto['success'] = 'Se modifico la cita con exito';
+            $objeto['cita'] = $cita;
+            return response()->json($objeto);
+        }else{
+            $objeto['error'] = 'No se encontro cita a editar';
+            return response()->json($objeto);
+        }
+    }*/
 
     public function index(){
         if(Auth::user()){
             $cita = new Cita();
             $usuario = Auth::user();
+            $personas = null;
             if ($usuario->role == 'administrador')  {
                 $personas = Persona::where('idTipoPersona',2)->orWhere('idTipoPersona',3)->get();
             }

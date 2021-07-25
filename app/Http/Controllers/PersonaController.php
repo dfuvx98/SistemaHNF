@@ -11,11 +11,10 @@ use App\Models\Persona_Especialidad;
 class PersonaController extends Controller
 {
 
-  
-    
+
+
     public function mostrarMedicos(){
         $medicos = Persona::where('idTipoPersona', 4)->where('estado',True)->with('Users')->get();
-        
         return view('gestionMedicos',compact('medicos'));
     }
 
@@ -34,9 +33,9 @@ class PersonaController extends Controller
     }
 
 
-    public function guardarMedico(Request $request){  
+    public function guardarMedico(Request $request){
         $especialidades = $request->especialidad;
-        
+
         $medico= Persona::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
@@ -91,7 +90,7 @@ class PersonaController extends Controller
         $medico = Persona::findOrFail($id);
         return view ('formularioBorrarMedico',compact('medico'));
     }
-    
+
     public function deleteMedico($id){
         $medico = Persona::findOrFail($id);
         $medico->estado =False;
@@ -103,7 +102,7 @@ class PersonaController extends Controller
         }else{
         return redirect()->route('medico.borrar');
         }
-        
+
     }
 
     public function crearCliente(){
@@ -113,7 +112,7 @@ class PersonaController extends Controller
 
 
     protected function storeCliente(Request $request)
-    {        
+    {
         $cliente= Persona::create([
             'nombre' => $request['name'],
             'apellido' => $request['surname'],
@@ -137,13 +136,13 @@ class PersonaController extends Controller
         $mensaje = 'Se creó el cliente '.$cliente->nombre.' '.$cliente->apellido.' con usuario '. $usuario->name;
         return redirect()->route('home',['mensaje'=>$mensaje]);
     }
-    
+
     public function crearPaciente(){
         $paciente = new Persona;
         $clientes = Persona::where('idTipoPersona',2)->get();
         return view('formularioNuevoPaciente',compact('paciente','clientes'));
     }
-    
+
     public function crearPacienteCliente($id){
         $paciente = new Persona;
         $clientes = Persona::where('id', $id)->where('idTipoPersona',2)->get();

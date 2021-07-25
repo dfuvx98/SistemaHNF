@@ -14,7 +14,7 @@
                         @csrf
                         <div class="form-group row">
                             <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus>
 
@@ -25,22 +25,22 @@
                                 @enderror
                             </div>
                         </div>
-                        
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary text-body">
                                     {{ __('Registrar') }}
                                 </button>
-                                <a class=" button btn btn-danger"href="{{route('especialidades.index')}}">Cancelar</a>        
+                                <a class=" button btn btn-danger"href="{{route('especialidades.index')}}">Cancelar</a>
                             </div>
-                            
-                                
-                            
+
+
+
                         </div>
-                        
-                    </form>    
+
+                    </form>
                 </div>
-               
+
             </div>
         </div>
     </div>

@@ -28,7 +28,7 @@ class EspecialidadesController extends Controller
 
     public function show($id){
         $especialidad = Especialidades::findOrFail($id);
-        
+
     }
     public function update(Request $request, $id){
         $request->validate([
@@ -53,7 +53,7 @@ class EspecialidadesController extends Controller
     }
 
     public function store(Request $request){
-        
+
         $request->validate([
             'nombre' => 'required|unique:especialidades|max:20'
         ],
@@ -61,9 +61,9 @@ class EspecialidadesController extends Controller
             'nombre.unique' =>"Ingrese una especialidad que no esté ya ingresada en el sistema",
             'nombre.max' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres"
         ]);
-        $especialidad = new Especialidades;   
+        $especialidad = new Especialidades;
         $especialidad->fill($request->all());
-        
+
         if($especialidad ->save()){
             return redirect()->route('especialidades.index');
         }else{
@@ -74,9 +74,9 @@ class EspecialidadesController extends Controller
 
     public function borrar($id){
         $especialidad = Especialidades::findOrFail($id);
-        return view ('formularioBorrarEspecialidad',compact('especialidad'));
+        return view ('formularioDesactivarEspecialidad',compact('especialidad'));
     }
-    
+
     public function borrarEspecialidad($id){
         $especialidad = Especialidades::findOrFail($id);
         $especialidad->estado =False;
@@ -100,5 +100,5 @@ class EspecialidadesController extends Controller
         }
         return response()->json($array);
     }
-   
+
 }
