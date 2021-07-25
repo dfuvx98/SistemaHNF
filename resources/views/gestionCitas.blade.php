@@ -124,25 +124,25 @@
                         <div class="form-group row">
                             <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
                             <div class="col-md-6">
-                                <input class ="form-control" id="paciente" name="paciente" readonly>
+                                <input class ="form-control" id="paciente2" name="paciente" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidad') }}</label>
                             <div class="col-md-6">
-                                <input class ="form-control"  id="especialidad" name="especialidad" readonly>
+                                <input class ="form-control"  id="especialidad2" name="especialidad" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="medico" class="col-md-4 col-form-label text-md-right">{{ __('Médico') }}</label>
                             <div class="col-md-6">
-                                <input class ="form-control"  id="medico" name="medico" readonly>
+                                <input class ="form-control"  id="medico2" name="medico" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
                             <div class="col-md-6">
-                                <input id="fecha" type="date" onfocus="abrirDateicker(this)"   class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
+                                <input id="fecha2" type="date"  readonly class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
                                 </span>
@@ -152,7 +152,7 @@
                             <label for="hora" class="col-md-4 col-form-label text-md-right">{{ __('Hora') }}</label>
 
                             <div class="col-md-6">
-                                <input id="hora" type="time" value="10:00" class="form-control" onfocus="abrirTimerPicker(this)" @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
+                                <input id="hora2" type="time" value="10:00"  readonly class="form-control"  @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
                                 </span>
@@ -163,27 +163,14 @@
             </div>
             <div class="modal-footer justify-content-center text-center">
                 <div class="text-center">
-                    <div class="row">
-                    @if (Auth::user()->role !== 'medico')
-                        <div class="col">
-                            <button type="button" class="btn btn-success" onclick="AgendarCitas()">Agendar</button>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
-                        </div>
-                    @else
-                        <button type="button" class="btn btn-success" onclick="Recetar()">Confirmar</button>
-                    @endif
-                        <div class="col">
-                            <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
-                        </div>
-                    </div>
+                    <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
           </div>
         </div>
       </div>
-      <!--Modal incompleto de si toca la consulta hacerla en modal  -->
+      <!--Modal incompleto de si toca la consulta hacerla en modal
       <div class="modal fade " id="modalRegistrarConsulta" tabindex="-1" role="dialog" aria-labelledby="modalRegistrarConsultaLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -256,6 +243,7 @@
           </div>
         </div>
       </div>
+      -->
 
 @endsection
 @section('css_extra')
@@ -459,39 +447,43 @@
                         timePicker.time = moment(date);
                         datePicker.time = moment(date);
 
-                        document.getElementById('fecha').value = date.toISOString().split('T')[0];
+                        document.getElementById('fecha2').value = date.toISOString().split('T')[0];
                         let hora = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                        document.getElementById('hora').value = date.getHours() < 10 && hora[0] !== '0' ? '0'+hora : hora;
+                        document.getElementById('hora2').value = date.getHours() < 10 && hora[0] !== '0' ? '0'+hora : hora;
                         idAModificar = info.event.id
                         eventAModificar = info.event
-                        document.getElementById('botonCancelar').style.display = 'block';
+                        //document.getElementById('botonCancelar').style.display = 'block';
                         console.log('datos', datos);
                         //si hay datos del paciente asignar paciente en el modal
                         if (datos.paciente) {
-
-                            var paciente = $('#paciente');
+                            document.getElementById('paciente2').value = datos.paciente.nombre+' '+datos.paciente.apellido;
+                            /*var paciente = $('#paciente');
                             paciente.val(datos.idPersonaP).change();
                             $("#paciente option").attr("selected", false);
                             $("#paciente option").prop("selected", false);
                             $("#paciente option[value='"+datos.idPersonaP+"']").attr("selected", true);
                             $("#paciente option[value='"+datos.idPersonaP+"']").prop("selected", true);
-                            $('#select2-paciente-container').html(datos.paciente.nombre+' '+datos.paciente.apellido)
+                            $('#select2-paciente-container').html(datos.paciente.nombre+' '+datos.paciente.apellido)*/
                         }
                         if (datos.especialidades) {
-                            var especialidad = $('#especialidad');
+                            document.getElementById('especialidad2').value = datos.especialidades.nombre;
+                            document.getElementById('medico2').value =datos.medico.nombre+ " "+ datos.medico.apellido;
+                            /*var especialidad = $('#especialidad');
                             especialidad.val(datos.idEspecialidad).change();
                             $("#paciente option").attr("selected", false);
                             $("#paciente option").prop("selected", false);
                             $("#paciente option[value='"+datos.idEspecialidad+"']").attr("selected", true);
                             $("#paciente option[value='"+datos.idEspecialidad+"']").prop("selected", true);
                             $('#select2-especialidad-container').html(datos.especialidades.nombre);
-                            changeSelector(datos.idEspecialidad, datos.medico);
+                            changeSelector(datos.idEspecialidad, datos.medico);*/
                         }
                     }
                     else {
+                        /*
                         TitleModal = 'Consulta de Cita';
                         //Metet el titulo en el modal
                         document.getElementById('modalAgendaCitaLabel').innerHTML = TitleModal
+                        */
                     }
                 },
                 eventRemove: function(dd){
