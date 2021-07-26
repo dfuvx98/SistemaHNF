@@ -67,7 +67,7 @@
                             <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
 
                             <div class="col-md-6">
-                                <input id="fecha" type="date" onfocus="abrirDateicker(this)"   class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
+                                <input id="fecha" type="date" readonly   class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
                                 </span>
@@ -77,7 +77,7 @@
                             <label for="hora" class="col-md-4 col-form-label text-md-right">{{ __('Hora') }}</label>
 
                             <div class="col-md-6">
-                                <input id="hora" readonly type="time" value="10:00" class="form-control" onfocus="abrirTimerPicker(this)" @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
+                                <input id="hora" readonly type="time" value="10:00" class="form-control" @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
                                 </span>
@@ -92,9 +92,6 @@
                     @if (Auth::user()->role !== 'medico')
                         <div class="col">
                             <button type="button" class="btn btn-success" onclick="AgendarCitas()">Agendar</button>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
                         </div>
                     @else
                         <button type="button" class="btn btn-success" onclick="Recetar()">Confirmar</button>
@@ -119,121 +116,158 @@
               </button>
             </div>
             <div class="modal-body">
-                @if (Auth::user()->role !== 'medico')
-                    <form id="formCita">
-                        <div class="form-group row">
-                            <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
-                            <div class="col-md-6">
-                                <input class ="form-control" id="paciente2" name="paciente" readonly>
-                            </div>
+                <form id="formCita2" >
+                    <div class="form-group row">
+                        <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
+                        <div class="col-md-6">
+                            <input class ="form-control" id="paciente2" name="paciente" readonly>
                         </div>
-                        <div class="form-group row">
-                            <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidad') }}</label>
-                            <div class="col-md-6">
-                                <input class ="form-control"  id="especialidad2" name="especialidad" readonly>
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidad') }}</label>
+                        <div class="col-md-6">
+                            <input class ="form-control"  id="especialidad2" name="especialidad" readonly>
                         </div>
-                        <div class="form-group row">
-                            <label for="medico" class="col-md-4 col-form-label text-md-right">{{ __('Médico') }}</label>
-                            <div class="col-md-6">
-                                <input class ="form-control"  id="medico2" name="medico" readonly>
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="medico" class="col-md-4 col-form-label text-md-right">{{ __('Médico') }}</label>
+                        <div class="col-md-6">
+                            <input class ="form-control"  id="medico2" name="medico" readonly>
                         </div>
-                        <div class="form-group row">
-                            <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
-                            <div class="col-md-6">
-                                <input id="fecha2" type="date"  readonly class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
-                                </span>
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
+                        <div class="col-md-6">
+                            <input id="fecha2" type="date"  readonly class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
+                            <span class="invalid-feedback" role="alert">
+                                <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
+                            </span>
                         </div>
-                        <div class="form-group row">
-                            <label for="hora" class="col-md-4 col-form-label text-md-right">{{ __('Hora') }}</label>
+                    </div>
+                    <div class="form-group row">
+                        <label for="hora" class="col-md-4 col-form-label text-md-right">{{ __('Hora') }}</label>
 
+                        <div class="col-md-6">
+                            <input id="hora2" type="time" value="10:00"  readonly class="form-control"  @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
+                            <span class="invalid-feedback" role="alert">
+                                <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
+                            </span>
+                        </div>
+                    </div>
+                    @if (Auth::user()->role === 'medico')
+                        <h6>Datos de Consulta</h6>
+                        <div class="form-group row">
+                            <label for="sintomas" class="col-md-4 col-form-label text-md-right">{{ __('Sintomas') }}</label>
                             <div class="col-md-6">
-                                <input id="hora2" type="time" value="10:00"  readonly class="form-control"  @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
+                                <textarea id="sintomas" name="sintomas"> </textarea>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
                                 </span>
                             </div>
                         </div>
-                    </form>
-                @endif
-            </div>
-            <div class="modal-footer justify-content-center text-center">
-                <div class="text-center">
-                    <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--Modal incompleto de si toca la consulta hacerla en modal
-      <div class="modal fade " id="modalRegistrarConsulta" tabindex="-1" role="dialog" aria-labelledby="modalRegistrarConsultaLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalRegistrarConsultaLabel">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                    <form id="formCita">
                         <div class="form-group row">
-                            <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombres') }}</label>
+                            <label for="tratamiento" class="col-md-4 col-form-label text-md-right">{{ __('Tratamiento') }}</label>
                             <div class="col-md-6">
-                                <input class ="form-control" id="nombre" name="nombre" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="apellido" class="col-md-4 col-form-label text-md-right">{{ __('Apellidos') }}</label>
-                            <div class="col-md-6">
-                                <input class ="form-control"  id="apellido" name="apellido" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cédula') }}</label>
-                            <div class="col-md-6">
-                                <input class ="form-control"  id="cedula" name="cedula" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
-                            <div class="col-md-6">
-                                <input id="fecha" type="date" readonly onfocus="abrirDateicker(this)"   class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha" required autocomplete="fecha" autofocus>
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="hora" class="col-md-4 col-form-label text-md-right">{{ __('Hora') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="hora" readonly type="time" disabled value="10:00" class="form-control" onfocus="abrirTimerPicker(this)" @error('hora') is-invalid @enderror name="hora" required autocomplete="hora" autofocus>
+                                <textarea id="tratamiento" name="tratamiento"> </textarea>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
                                 </span>
                             </div>
                         </div>
-                    </form>
+                        <div class="form-group row">
+                            <label for="diagnostico" class="col-md-4 col-form-label text-md-right">{{ __('Diagnóstico') }}</label>
+                            <div class="col-md-6">
+                                <textarea id="diagnostico" name="diagnostico"> </textarea>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fechaControl" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Proximo Control') }}</label>
+                            <div class="col-md-6">
+                                <input id="fechaControl" type="date" readonly onfocus="abrirDatepicker(this)" class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fechaControl" required autocomplete="fechaControl" autofocus>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <label for="solExalemens" class="col-md-4 col-form-label text-md-right">{{ __('Solicitar Examenes') }}</label>
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="form-check col">
+                                <input class="form-check-input" type="radio" name="solicitaExamenes" id="solicitaExamenes1" value="si">
+                                <label class="form-check-label" for="solicitaExamenes1">
+                                  Si
+                                </label>
+                            </div>
+                            <div class="form-check col">
+                                <input class="form-check-input" type="radio" name="solicitaExamenes" id="solicitaExamenes" value="no" checked>
+                                <label class="form-check-label" for="solicitaExamenes">
+                                    No
+                                </label>
+                            </div>
+                            <div class="col-2"></div>
+                        </div>
+                        <div class="content_detail_examen" style="display: none">
+                            <div class="form-group row">
+                                <label for="detalles" class="col-md-4 col-form-label text-md-right">{{ __('Detalles') }}</label>
+                                <div class="col-md-6">
+                                    <textarea id="detalles" name="detalleExamen"> </textarea>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong id="errorHora">@error('hora') {{ $message }} @enderror</strong>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Tios de Examenes') }}</label>
+                                <div class="col-md-6">
+                                    <select class="form-control selection" id="tiposExamenes" name="tiposExamenes[]" style="width: 100%" multiple="multiple" required>
+                                        @if (isSet($tiposExamenes))
+                                            @foreach ($tiposExamenes as $tiposExamene)
+                                                <option value="{{ $tiposExamene->id}}">{{ $tiposExamene->nombre}}</option>
+                                            @endforeach
+                                        @else
+                                            <option value="0">No existen tipos de examenes</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="col-md-4 col-form-label text-md-right">{{ __('Receta') }}</label>
+                        <div class="form-group row">
+                            <label for="medicamento_receta" class="col-md-4 col-form-label text-md-right">{{ __('Medicamentos') }}</label>
+                            <div class="col-md-6">
+                                <textarea id="medicamento_receta" name="medicamento_receta"> </textarea>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="errorMedicamento">@error('hora') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tratamiento_receta" class="col-md-4 col-form-label text-md-right">{{ __('Tratamiento') }}</label>
+                            <div class="col-md-6">
+                                <textarea id="tratamiento_receta" name="tratamiento_receta"> </textarea>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong >@error('hora') {{ $message }} @enderror</strong>
+                                </span>
+                            </div>
+                        </div>
+                    @endif
+                </form>
             </div>
             <div class="modal-footer justify-content-center text-center">
                 <div class="text-center">
                     <div class="row">
-                    @if (Auth::user()->role !== 'medico')
+                        @if (Auth::user()->role === 'medico')
                         <div class="col">
-                            <button type="button" class="btn btn-success" onclick="AgendarCitas()">Agendar</button>
+                            <button type="button" class="btn btn-success" id="botonCancelar" onclick="Consulta()">Guardar</button>
                         </div>
+                        @elseif (Auth::user()->role === 'administrador')
                         <div class="col">
-                            <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()" style="display: none;">Cancelar</button>
+                            <button type="button" class="btn btn-danger" id="botonCancelar" onclick="Cancelar()">Cancelar</button>
                         </div>
-                    @else
-                        <button type="button" class="btn btn-success" onclick="Recetar()">Confirmar</button>
-                    @endif
+                        @endif
                         <div class="col">
                             <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
                         </div>
@@ -243,7 +277,7 @@
           </div>
         </div>
       </div>
-      -->
+
 
 @endsection
 @section('css_extra')
@@ -260,6 +294,31 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     const rolUsuario = '{{Auth::user()->role}}';
+
+
+
+    if (rolUsuario === 'medico') {
+        const radios = document.querySelectorAll('input[name="solicitaExamenes"]');
+        radios.forEach( radio => {
+            radio.addEventListener('change', () => {
+                const value = radio.value
+                console.log('content',  document.querySelector('.content_detail_examen'))
+                if (value === 'si') {
+                    document.querySelector('.content_detail_examen').style.display = 'block';
+                }else{
+                    //Aquí en este else lo que hago es esconder los valores a llenar de los exámenes si hago
+                    //una solicitud de examen y eso ya lo hago bien pero para cuando se pueda lo que quiero saber es
+                    //como hago para poder vaciar los valores del select, el valor del detalle ya lo vacío
+                    document.querySelector('.content_detail_examen').style.display = 'none';
+                    document.getElementById('detalles').value = '';
+                    /*var tiposExamenes = $('#tiposExamenes');
+                    tiposExamenes.val().change();
+                    $("#tiposExamenes option").attr("selected", false);
+                    $("#tiposExamenes option").prop("selected", false);*/
+                }
+            })
+        })
+    }
     // seleccionamos el contenedor o div donde se va a dibujar el full calendar
     const calendarEl = document.getElementById('fullCalendar');
     // la variable la inicializamos vacía
@@ -316,18 +375,22 @@
                 //funcion en caso de hacer click en vacio
                 select: function (event) {
                     if(event.view.type !== 'dayGridMonth') {
+
+                        const date = new Date(event.start);
+                        timePicker.time = moment(date);
+                        datePicker.time = moment(date);
+                        //validar que no sea fecha anterior a la fecha u hora actual
                         if ( rolUsuario === 'medico') { return;}
                         $('#modalAgendaCita').modal('show');
                         $('#modalAgendaCita').on('hide.bs.modal', hiddenPickers);
                         TitleModal = 'Agendar Citas';
                         document.getElementById('modalAgendaCitaLabel').innerHTML = TitleModal
-                        const date = new Date(event.start)
-                        timePicker.time = moment(date);
-                        datePicker.time = moment(date);
+
+
                         document.getElementById('fecha').value = date.toISOString().split('T')[0];
                         let hora = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                         document.getElementById('hora').value = date.getHours() < 10 && hora[0] !== '0' ? '0'+hora : hora;
-                        document.getElementById('botonCancelar').style.display = 'none';
+
 
                     } else if (event.view.type === 'dayGridMonth') {
                         calendar.gotoDate(event.start);
@@ -435,7 +498,7 @@
                     //llamar modal
                     $('#modalVerCita').modal('show');
                     $('#modalVerCita').on('hide.bs.modal', hiddenPickers);
-                    if (rolUsuario !== 'medico') {
+
                         //poner titulo al modal si se modifica
                         TitleModal = 'Datos Cita';
                         //Metet el titulo en el modal
@@ -452,6 +515,12 @@
                         document.getElementById('hora2').value = date.getHours() < 10 && hora[0] !== '0' ? '0'+hora : hora;
                         idAModificar = info.event.id
                         eventAModificar = info.event
+                        if(datos.estado !=1){
+                            document.getElementById('botonCancelar').style.display = 'none';
+                        }else{
+                            document.getElementById('botonCancelar').style.display = 'block';
+                        }
+
                         //document.getElementById('botonCancelar').style.display = 'block';
                         console.log('datos', datos);
                         //si hay datos del paciente asignar paciente en el modal
@@ -477,14 +546,6 @@
                             $('#select2-especialidad-container').html(datos.especialidades.nombre);
                             changeSelector(datos.idEspecialidad, datos.medico);*/
                         }
-                    }
-                    else {
-                        /*
-                        TitleModal = 'Consulta de Cita';
-                        //Metet el titulo en el modal
-                        document.getElementById('modalAgendaCitaLabel').innerHTML = TitleModal
-                        */
-                    }
                 },
                 eventRemove: function(dd){
                     console.log('dd',dd)
@@ -526,6 +587,7 @@
             var ajax = new XMLHttpRequest();
             ajax.open('POST', '/Cita/agendar', true);
             let data = new FormData(form);
+            console.log(data);
             //codigo para poner la cita en la base de datos
             ajax.setRequestHeader('X-CSRF-TOKEN', document.querySelector("input[name='_token']").value);
             ajax.send(data);
@@ -628,6 +690,27 @@
             }
         }
 
+    function Consulta() {
+        const form = document.getElementById('formCita2');
+        var ajax = new XMLHttpRequest();
+        ajax.open('POST', '/Consulta/guardar', true);
+        let data = new FormData(form);
+
+            //data.append('id_cita',idAModificar);
+            ajax.setRequestHeader('X-CSRF-TOKEN', document.querySelector("input[name='_token']").value);
+            ajax.send(data);
+            ajax.onload = () => {
+                if(ajax.responseText){
+                    const response = JSON.parse(ajax.responseText);
+                    console.log(response);
+                    /*if(response.success){
+                        eventAModificar.setProp('color','#455a64')
+                        $('#modalAgendaCita').modal('hide');
+                        }*/
+                    }
+                }
+    }
+
 
     function fueraDeHorario() {
         const horaTxt = document.getElementById('hora').value.split(':');
@@ -649,7 +732,6 @@
     function hiddenPickers () {
         idAModificar = 0;
         eventAModificar = null;
-        if ( rolUsuario === 'medico') { return;}
         timePicker.hide();
         datePicker.hide();
     }
@@ -668,7 +750,7 @@
         });
     }
 
-    function abrirDateicker(object) {
+    function abrirDatepicker(object) {
         datePicker.toggle();
         datePicker.trigger = object
         object.addEventListener('onOk', function() {
@@ -737,6 +819,9 @@
     });
     $('#medico').select2({
         dropdownParent: $('#modalAgendaCita'),
+    });
+    $('#tiposExamenes').select2({
+        dropdownParent: $('#modalVerCita'),
     });
 
     // funcion ajax que traer todas las citas y posteriormente se agrega al calentario

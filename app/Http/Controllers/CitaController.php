@@ -5,6 +5,7 @@ use App\Models\Cita;
 use App\Models\Persona;
 use Illuminate\Http\Request;
 use App\Models\Especialidades;
+use App\Models\Tipo_examen;
 use Illuminate\Support\Facades\Auth;
 
 class CitaController extends Controller
@@ -125,7 +126,8 @@ class CitaController extends Controller
                 $personas = Persona::where('id', $usuario->idPersona)->orWhere('idPersona',$usuario->idPersona)->get();
             }
             $especialidades = Especialidades::where('estado',True)->get();
-            return view('gestionCitas',compact('cita','personas','especialidades'));
+            $tiposExamenes = Tipo_examen::all();
+            return view('gestionCitas',compact('cita','personas','especialidades','tiposExamenes'));
         }
         return redirect('/login');
     }

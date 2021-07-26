@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CitaController;
+use App\Http\Controllers\ConsultaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,5 +46,7 @@ Route::post('/Cita/cancelar',[CitaController::class,'borrarCita'])->name('cita.d
 Route::get('/Cita/obtener',[CitaController::class,'obtenerCitas'])->name('cita.get');
 Route::post('/Cita/agendar', [CitaController::class,'agendarCita'])->name('cita.agendar');
 Route::post('/Cita/modificar', [CitaController::class,'modificarCita'])->name('cita.modificar');
-Route::post('/Cita/dropUpdate', [CitaController::class, 'dropUpdateCitas'])->name('cita.dropUpdate');
+Route::post('/Consulta/guardar',[ConsultaController::class, 'guardar'])->name('consulta.guardar');
+//Route::post('/Cita/dropUpdate', [CitaController::class, 'dropUpdateCitas'])->name('cita.dropUpdate');
 Route::resource('/cita',CitaController::class);
+
