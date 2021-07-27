@@ -20,10 +20,10 @@
                                 <select class="form-control selection" id="cliente" name="cliente" required>
                                     @if (isSet($clientes))
                                         @foreach ($clientes as $cliente)
-                                            <option value="{{ $cliente->id}}">{{ $cliente->nombre}} {{ $cliente->apellido}}</option>        
+                                            <option value="{{ $cliente->id}}">{{ $cliente->nombre}} {{ $cliente->apellido}}</option>
                                         @endforeach
                                         @else
-                                        <option value="0">No existen clientes</option>        
+                                        <option value="0">No existen clientes</option>
                                     @endif
                                 </select>
                             </div>
@@ -128,7 +128,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="form-group row">
                             <label for="fechaNacimiento" class="col-md-4 col-form-label text-md-right">{{ __('Fecha de Nacimiento') }}</label>
 
@@ -148,16 +148,16 @@
 
                             <div class="col-md-6">
                                 <select name="genero" id="genero" class="form-control">
-                                    <option value="Masculino">Masculino</option>    
-                                    <option value="Femenino">Femenino</option>    
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
                                   </select>
                             </div>
                         </div>
 
 
-                        
 
-                       
+
+
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -188,4 +188,5 @@
 <script>
     $('#cliente').select2();
 </script>
+
 @endsection

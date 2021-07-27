@@ -89,13 +89,9 @@
             <div class="modal-footer justify-content-center text-center">
                 <div class="text-center">
                     <div class="row">
-                    @if (Auth::user()->role !== 'medico')
                         <div class="col">
                             <button type="button" class="btn btn-success" onclick="AgendarCitas()">Agendar</button>
                         </div>
-                    @else
-                        <button type="button" class="btn btn-success" onclick="Recetar()">Confirmar</button>
-                    @endif
                         <div class="col">
                             <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
                         </div>
@@ -155,6 +151,12 @@
                         </div>
                     </div>
                     @if (Auth::user()->role === 'medico')
+                        <div class="form-group row" style =display:none>
+                            <label for="idCita" class="col-md-4 col-form-label text-md-right">{{ __('idCita') }}</label>
+                            <div class="col-md-6">
+                                <input class ="form-control" id="idCita" name="idCita" style =display:none readonly>
+                            </div>
+                        </div>
                         <h6>Datos de Consulta</h6>
                         <div class="form-group row">
                             <label for="sintomas" class="col-md-4 col-form-label text-md-right">{{ __('Sintomas') }}</label>
@@ -220,7 +222,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Tios de Examenes') }}</label>
+                                <label for="tiposExamenes" class="col-md-4 col-form-label text-md-right">{{ __('Tipos de Examenes') }}</label>
                                 <div class="col-md-6">
                                     <select class="form-control selection" id="tiposExamenes" name="tiposExamenes[]" style="width: 100%" multiple="multiple" required>
                                         @if (isSet($tiposExamenes))
@@ -496,15 +498,24 @@
                     }
                 }*/eventClick: function (info) {
                     //llamar modal
-                    $('#modalVerCita').modal('show');
-                    $('#modalVerCita').on('hide.bs.modal', hiddenPickers);
-
+                    //aquí tendría que validar si es un medico y si no está ya agendada la cita si quiero
+                    //hacer que ya no pueda entrar al modal si ya está con consulta esa cita.
+                        datos =info.event._def.extendedProps.data;
+                        if(rolUsuario == 'medico' && datos.estado !==1){
+                            return;
+                        }
+                        $('#modalVerCita').modal('show');
+                        $('#modalVerCita').on('hide.bs.modal', hiddenPickers);
                         //poner titulo al modal si se modifica
                         TitleModal = 'Datos Cita';
                         //Metet el titulo en el modal
                         document.getElementById('modalVerCitaLabel').innerHTML = TitleModal
                         //llamar datos de la cita asignada en el full calendar
-                        datos =info.event._def.extendedProps.data;
+
+                        if (rolUsuario == 'medico'){
+                            document.getElementById('idCita').value = datos.id;
+                        }
+
                         //coger la fecha del evento
                         const date = new Date(info.event.start)
                         timePicker.time = moment(date);
@@ -515,12 +526,13 @@
                         document.getElementById('hora2').value = date.getHours() < 10 && hora[0] !== '0' ? '0'+hora : hora;
                         idAModificar = info.event.id
                         eventAModificar = info.event
-                        if(datos.estado !=1){
-                            document.getElementById('botonCancelar').style.display = 'none';
-                        }else{
-                            document.getElementById('botonCancelar').style.display = 'block';
+                        if(rolUsuario == 'administrador'){
+                            if(datos.estado !=1){
+                                document.getElementById('botonCancelar').style.display = 'none';
+                            }else{
+                                ocument.getElementById('botonCancelar').style.display = 'block';
                         }
-
+                        }
                         //document.getElementById('botonCancelar').style.display = 'block';
                         console.log('datos', datos);
                         //si hay datos del paciente asignar paciente en el modal
@@ -595,7 +607,7 @@
             ajax.onload = () => {
                 if(ajax.responseText){
                     const response = JSON.parse(ajax.responseText);
-                    console.log(response)
+                    console.log(response);
                     if(response.success){
                         const hora = form.hora.value.split(':');
                         const finHora = parseInt(hora[1])+30;
@@ -685,6 +697,9 @@
                         eventAModificar.setProp('color','#455a64')
                         $('#modalAgendaCita').modal('hide');
                         }
+                        else{
+                            return;
+                        }
                     }
                 }
             }
@@ -703,10 +718,14 @@
                 if(ajax.responseText){
                     const response = JSON.parse(ajax.responseText);
                     console.log(response);
-                    /*if(response.success){
-                        eventAModificar.setProp('color','#455a64')
-                        $('#modalAgendaCita').modal('hide');
-                        }*/
+                    const exito ="Se registro la consulta con exito";
+                    if(response == exito ){
+                        eventAModificar.setProp('color','#6a1b9a');
+                        $('#modalVerCita').modal('hide');
+                        //falta que enseguida se cierre el modal ya en el full calendar cuente como
+                        //que ya no es posible entrar al modal. No deja entrar al modal cuando se cambia el
+                        //estado de la cita pero es necesario refrescar para que aplique
+                        }
                     }
                 }
     }
@@ -728,10 +747,15 @@
         return fueraHorario;
     }
 
-
+    //Funcion que se ejecuta cuando cierro el modal
     function hiddenPickers () {
         idAModificar = 0;
         eventAModificar = null;
+        if (rolUsuario === 'medico'){
+            document.querySelector('.content_detail_examen').style.display = 'none';
+        $(this).find('form').trigger('reset');
+            }
+        //falta código para poder vaciar el select2
         timePicker.hide();
         datePicker.hide();
     }

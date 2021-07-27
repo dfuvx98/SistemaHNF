@@ -106,19 +106,16 @@
                         @endif
                         @if (Auth::user()->role =='medico')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('especialidades.index') }}">{{ __('Gestión Especialidades') }}</a>
+                            <a class="nav-link">{{ __('Historial Médico') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('personaMostrarMedicos') }}">{{ __('Gestión Médicos') }}</a>
+                            <a class="nav-link">{{ __('Recetas Pacientes') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cita.index') }}">{{ __('Gestión citas') }}</a>
+                            <a class="nav-link">{{ __('Solicitudes Exámenes') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cliente.create') }}">{{ __('Registrar Cliente') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('paciente.create') }}">{{ __('Registrar Paciente') }}</a>
+                            <a class="nav-link" href="{{ route('cita.index') }}">{{ __('Revisar Agenda') }}</a>
                         </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
