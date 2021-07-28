@@ -7,6 +7,9 @@ use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\RecetaController;
+use App\Http\Controllers\SolicitudExamenController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,6 +50,10 @@ Route::get('/Cita/obtener',[CitaController::class,'obtenerCitas'])->name('cita.g
 Route::post('/Cita/agendar', [CitaController::class,'agendarCita'])->name('cita.agendar');
 Route::post('/Cita/modificar', [CitaController::class,'modificarCita'])->name('cita.modificar');
 Route::post('/Consulta/guardar',[ConsultaController::class, 'guardar'])->name('consulta.guardar');
+Route::get('/Recetas/Paciente',[RecetaController::class,'recetasCliente'])->name('recetasCliente.get');
+Route::resource('/SolicitudesExamenes',SolicitudExamenController::class);
+Route::resource('/HistorialMedico',ConsultaController::class);
+Route::resource('/Recetas',RecetaController::class);
 //Route::post('/Cita/dropUpdate', [CitaController::class, 'dropUpdateCitas'])->name('cita.dropUpdate');
 Route::resource('/cita',CitaController::class);
 

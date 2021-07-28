@@ -18,7 +18,11 @@ class Solicitud_Examen extends Model
     ];
 
     public function Tipo_examen(){
-        return $this->BelongsTo(Tipo_examen::class);
+        return $this->BelongsTo(Tipo_examen::class,'idTipo');
 
+    }
+
+    public function Consulta(){
+        return $this->belongsTo(Consulta::class,'idConsulta');
     }
 }

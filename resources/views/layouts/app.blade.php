@@ -106,13 +106,13 @@
                         @endif
                         @if (Auth::user()->role =='medico')
                         <li class="nav-item">
-                            <a class="nav-link">{{ __('Historial Médico') }}</a>
+                            <a class="nav-link" href="{{ route('HistorialMedico.index') }}">{{ __('Historial Médico') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">{{ __('Recetas Pacientes') }}</a>
+                            <a class="nav-link"  href="{{ route('Recetas.index') }}">{{ __('Recetas Pacientes') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">{{ __('Solicitudes Exámenes') }}</a>
+                            <a class="nav-link" href="{{ route('SolicitudesExamenes.index') }}">{{ __('Solicitudes Exámenes') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cita.index') }}">{{ __('Revisar Agenda') }}</a>
@@ -139,16 +139,16 @@
                             <a class="nav-link" href="{{route('pacienteCliente.create', $id =Auth::user()->idPersona)}}">{{ __('Registrar Paciente')}}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Gestión Médicos') }}</a>
+                            <a class="nav-link" href="{{ route('HistorialMedico.index') }}">{{ __('Historial Médico') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('Recetas.index') }}">{{ __('Recetas') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('SolicitudesExamenes.index') }}">{{ __('Solicitudes Exámenes') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cita.index') }}">{{ __('Gestión citas') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Registrar Cliente') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Registrar Paciente') }}</a>
                         </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

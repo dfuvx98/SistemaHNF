@@ -2,9 +2,15 @@
 
 @section('content')
     @csrf
+    @if (Auth::user()->role === 'administrador')
     <div class="container my-5">
         <h1>Gestionar Citas</h1>
     </div>
+    @else
+    <div class="container my-5">
+        <h1>Agenda de citas</h1>
+    </div>
+    @endif
     <div class="container">
         <div id="fullCalendar" style="background: #fff;">
 
@@ -119,6 +125,39 @@
                             <input class ="form-control" id="paciente2" name="paciente" readonly>
                         </div>
                     </div>
+                    @if (Auth::user()->role === 'medico')
+                    <div class="form-group row">
+                        <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cédula') }}</label>
+                        <div class="col-md-6">
+                            <input class ="form-control" id="cedula" name="cedula" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electrónico') }}</label>
+                        <div class="col-md-6">
+                            <input class ="form-control" id="email" name="email" readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
+                        <div class="col-md-6">
+                            <input class ="form-control" id="telefono" name="telefono" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="fecha3" class="col-md-4 col-form-label text-md-right">{{ __('Fecha de nacimiento') }}</label>
+                        <div class="col-md-6">
+                            <input id="fecha3" type="date"  readonly class="form-control" min= new Date().toISOString.split('T')[]  @error('fecha') is-invalid @enderror name="fecha3" required autocomplete="fecha" autofocus>
+                            <span class="invalid-feedback" role="alert">
+                                <strong id="errorFecha">@error('fecha') {{ $message }} @enderror</strong>
+                            </span>
+                        </div>
+                    </div>
+                    @endif
                     <div class="form-group row">
                         <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidad') }}</label>
                         <div class="col-md-6">
@@ -157,6 +196,7 @@
                                 <input class ="form-control" id="idCita" name="idCita" style =display:none readonly>
                             </div>
                         </div>
+
                         <h6>Datos de Consulta</h6>
                         <div class="form-group row">
                             <label for="sintomas" class="col-md-4 col-form-label text-md-right">{{ __('Sintomas') }}</label>
@@ -377,12 +417,16 @@
                 //funcion en caso de hacer click en vacio
                 select: function (event) {
                     if(event.view.type !== 'dayGridMonth') {
-
+                        fechaActual = new Date();
                         const date = new Date(event.start);
                         timePicker.time = moment(date);
                         datePicker.time = moment(date);
                         //validar que no sea fecha anterior a la fecha u hora actual
                         if ( rolUsuario === 'medico') { return;}
+                        if(date<fechaActual){
+                            console.log(fechaActual);
+                            return;
+                        }
                         $('#modalAgendaCita').modal('show');
                         $('#modalAgendaCita').on('hide.bs.modal', hiddenPickers);
                         TitleModal = 'Agendar Citas';
@@ -498,10 +542,13 @@
                     }
                 }*/eventClick: function (info) {
                     //llamar modal
-                    //aquí tendría que validar si es un medico y si no está ya agendada la cita si quiero
-                    //hacer que ya no pueda entrar al modal si ya está con consulta esa cita.
                         datos =info.event._def.extendedProps.data;
+                        fechaActual = new Date();
                         if(rolUsuario == 'medico' && datos.estado !==1){
+                            return;
+                        }
+                        if(rolUsuario == 'medico' && info.event.start<fechaActual){
+                            console.log(fechaActual);
                             return;
                         }
                         $('#modalVerCita').modal('show');
@@ -530,7 +577,7 @@
                             if(datos.estado !=1){
                                 document.getElementById('botonCancelar').style.display = 'none';
                             }else{
-                                ocument.getElementById('botonCancelar').style.display = 'block';
+                                document.getElementById('botonCancelar').style.display = 'block';
                         }
                         }
                         //document.getElementById('botonCancelar').style.display = 'block';
@@ -538,6 +585,13 @@
                         //si hay datos del paciente asignar paciente en el modal
                         if (datos.paciente) {
                             document.getElementById('paciente2').value = datos.paciente.nombre+' '+datos.paciente.apellido;
+
+                            if(rolUsuario == 'medico'){
+                            document.getElementById('cedula').value = datos.paciente.cedula;
+                            document.getElementById('email').value = datos.paciente.email;
+                            document.getElementById('telefono').value = datos.paciente.telefono;
+                            document.getElementById('fecha3').value = datos.paciente.fechaNacimiento;
+                            }
                             /*var paciente = $('#paciente');
                             paciente.val(datos.idPersonaP).change();
                             $("#paciente option").attr("selected", false);
@@ -558,6 +612,7 @@
                             $('#select2-especialidad-container').html(datos.especialidades.nombre);
                             changeSelector(datos.idEspecialidad, datos.medico);*/
                         }
+
                 },
                 eventRemove: function(dd){
                     console.log('dd',dd)
@@ -785,7 +840,7 @@
     }
 
     function changeSelector(id, infoMedico){
-        console.log('cambiando Esecialidad')
+        console.log('cambiando Especialidad')
         $.ajax({
             type: 'get',
             //Voy con Url de la ruta en vez del nombre
@@ -848,7 +903,7 @@
         dropdownParent: $('#modalVerCita'),
     });
 
-    // funcion ajax que traer todas las citas y posteriormente se agrega al calentario
+    // funcion ajax que trae todas las citas y posteriormente se agrega al calentario
     $.ajax({
         type: 'get',
         url: '/Cita/obtener',

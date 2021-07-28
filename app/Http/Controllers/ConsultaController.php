@@ -46,7 +46,7 @@ class ConsultaController extends Controller
 
                 if($request['solicitaExamenes'] === 'si') {
                     $detalleExamen = $request['detalleExamen'];
-                    if (count($request['tiposExamenes']) > 0) {
+                    if (count($request['tiposExamenes']) > 0 && $detalleExamen!=='') {
                         foreach($request['tiposExamenes'] as $tipoExamen) {
                             $examen = Solicitud_Examen::create([
                                 'idConsulta' => $consulta->id,
@@ -77,22 +77,10 @@ class ConsultaController extends Controller
     }
         $mensaje='Se registro la consulta con exito';
         return response()->json([$mensaje]);
-        /*$request->validate([
-            'sintomas' => 'required',
-            'tratamiento' =>'required',
-            'diagnostico' =>'required',
-            'fecha_proximo_control'=>'required',
-            'fecha' => 'required',
-            'hora' =>'required',
-        ],
-        [
-            'sintomas.required' =>"Ingrese sintomas del paciente",
-            'tratamiento.required' =>"Ingrese el tratamiento del paciente",
-            'diagnostico.required' =>"Ingrese el diagnostico del paciente",
-            'fecha_proximo_control.required' =>"Ingrese la fecha del proximo control"
-        ]);*/
-        //return response()->json($request);
+    }
 
-
+    public function index(){
+        $consultas = Consulta::all();
+        return view ('historialMedico',compact('consultas'));
     }
 }

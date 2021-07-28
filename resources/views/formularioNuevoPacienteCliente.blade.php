@@ -162,7 +162,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Registrar') }}
+                                    {{ __('Register') }}
                                 </button>
                             </div>
                         </div>
@@ -182,9 +182,6 @@
 </style>
 @endsection
 @section('js_extras')
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $('#cliente').select2();
 </script>

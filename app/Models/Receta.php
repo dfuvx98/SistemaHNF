@@ -15,6 +15,7 @@ class Receta extends Model
         'idConsulta'
     ];
     protected $table ='receta';
+
     public function Consulta(){
         return $this->belongsTo(Consulta::class,'idConsulta');
     }

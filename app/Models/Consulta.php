@@ -22,7 +22,7 @@ class Consulta extends Model
     ];
 
     public function Solicitud_Examen(){
-        return $this->hasMany(Solicitud_Examen::class);
+        return $this->hasMany(Solicitud_Examen::class,'idConsulta');
     }
 
     public function Receta(){
