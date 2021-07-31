@@ -14,6 +14,7 @@ class ConsultaController extends Controller
 
     public function guardar(Request $request){
 
+
         $validator = Validator::make($request->all(),[
             //tus reglas...'sintomas' => 'required',
             'sintomas' => 'required',
@@ -46,7 +47,7 @@ class ConsultaController extends Controller
 
                 if($request['solicitaExamenes'] === 'si') {
                     $detalleExamen = $request['detalleExamen'];
-                    if (count($request['tiposExamenes']) > 0 && $detalleExamen!=='') {
+                    if (count($request['tiposExamenes']) > 0 && $detalleExamen!==null) {
                         foreach($request['tiposExamenes'] as $tipoExamen) {
                             $examen = Solicitud_Examen::create([
                                 'idConsulta' => $consulta->id,
@@ -57,7 +58,8 @@ class ConsultaController extends Controller
                         }
                     }
                 }
-                if($request['medicamento_receta'] !== '' && $request['tratamiento_receta'] !== '') {
+
+                if($request['medicamento_receta'] !== null && $request['tratamiento_receta'] !== null) {
                     $receta = Receta::create([
                         'medicamentos' => $request['medicamento_receta'],
                         'tratamiento' => $request['tratamiento_receta'],

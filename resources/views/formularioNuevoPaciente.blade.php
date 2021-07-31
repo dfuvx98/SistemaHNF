@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('paciente.store') }}">
                         @csrf
-
+                        @if (Auth::user()->role === 'administrador')
                         <div class="form-group row">
                             <label for="cliente" class="col-md-4 col-form-label text-md-right">{{ __('Cliente') }}</label>
                             <div class="col-md-6">
@@ -28,7 +28,22 @@
                                 </select>
                             </div>
                         </div>
+                        @else
+                        <div class="form-group row" style="display: none">
+                            <label for="cliente" class="col-md-4 col-form-label text-md-right">{{ __('Cliente') }}</label>
+                            <div class="col-md-6">
+                                 <input type="text" class="form-control selection" id="cliente" name="cliente" style="display: none" value="{{ $clientes['0']->id}}" readonly>
+                            </div>
+                        </div>
 
+                        <div class="form-group row">
+                            <label for="cliente" class="col-md-4 col-form-label text-md-right">{{ __('Cliente') }}</label>
+                            <div class="col-md-6">
+                                 <input type="text" class="form-control selection" id="clienteNombre" name="clienteNombre" value="{{ $clientes['0']->nombre}} {{ $clientes['0']->apellido}}" readonly>
+                            </div>
+                        </div>
+
+                        @endif
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
 
@@ -42,7 +57,6 @@
                                 @enderror
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <label for="surname" class="col-md-4 col-form-label text-md-right">{{ __('Apellido') }}</label>
 
@@ -186,7 +200,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    $('#cliente').select2();
+    if({!!Auth::user()->role =='administrador'!!}){
+        $('#cliente').select2();
+    };
 </script>
-
 @endsection

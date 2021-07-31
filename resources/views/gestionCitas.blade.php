@@ -631,6 +631,7 @@
             const errorHora = document.getElementById('errorHora');
             errorHora.innerHTML = 'Fuera de horario'
             form.hora.setAttribute('is-invalid',true)
+            console.log('Fuera de horario');
             return;
         } else {
             const fecha = new Date(form.fecha.value+'T00:00:00');
@@ -787,6 +788,7 @@
 
 
     function fueraDeHorario() {
+        //Cogemos la hora y la partimos en 2
         const horaTxt = document.getElementById('hora').value.split(':');
         var hora = parseInt(horaTxt[0]);
         var minutos = parseInt(horaTxt[1]);

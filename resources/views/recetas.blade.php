@@ -8,7 +8,7 @@
 </div>
 
 <div class="container table-responsive">
-    <table class="table table-bordered table-hover bg-white" id="examenes">
+    <table class="table table-bordered table-hover bg-white" id="recetas">
         <thead>
             <tr class="info">
                     <th>Fecha</th>
@@ -56,7 +56,7 @@
 <script>
     //seleccionar id de la tabla para que se haga DataTable
     $(document).ready(function() {
-        $('#examenes').DataTable({
+        $('#recetas').DataTable({
     responsive: true,
     autoWidth: false
 });

@@ -11,13 +11,22 @@
     <table class="table table-bordered table-hover bg-white" id="historialMedico">
         <thead>
             <tr class="info">
-                    <th>Nombre</th>
-                    <th>Apellido</th>
+                    <th>Paciente</th>
                     <th>Medico</th>
                     <th>Fecha</th>
                     <th>Sintomas</th>
                     <th>Tratamiento</th>
                     <th>Diagnóstico</th>
+                    <th>Medicamentos</th>
+                    <th>Posología</th>
+                    <th>Tipo De Examen</th>
+                    <th>Detalle</th>
+                    <th>Generar Receta</th>
+                    <th>Generar Examen</th>
+
+
+
+
             </tr>
         </thead>
         <tbody>
@@ -25,24 +34,92 @@
             @if (Auth::user()->role === 'cliente')
             @if (Auth::user()->idPersona == $consulta->Cita->Paciente->id || Auth::user()->idPersona == $consulta->Cita->Paciente->idPersona)
                     <tr>
-                        <td>{{$consulta->Cita->Paciente->nombre}}</td>
-                        <td>{{$consulta->Cita->Paciente->apellido}}</td>
+                        <td>{{$consulta->Cita->Paciente->nombre}} {{$consulta->Cita->Paciente->apellido}}</td>
                         <td>{{$consulta->Cita->Medico->nombre}} {{$consulta->Cita->Medico->apellido}} </td>
-                        <td>{{$consulta->Cita->fecha}}</td>
+                        <td>{{$consulta->fecha}}</td>
                         <td>{{$consulta->sintomas}}</td>
                         <td>{{$consulta->tratamiento}}</td>
                         <td>{{$consulta->diagnostico}}</td>
+                        @if (isset($consulta->Receta))
+                            <td>{{$consulta->Receta->medicamentos}}</td>
+                            <td>{{$consulta->Receta->tratamiento}}</td>
+                        @else
+                            <td></td>
+                            <td></td>
+                        @endif
+                        <td>
+                        @if (isset($consulta->Solicitud_Examen))
+                        @foreach ($consulta->Solicitud_Examen as $examen)
+                        {{$examen->Tipo_examen->nombre}}
+                        @endforeach
+                        </td>
+                        <td>
+                        @foreach ($consulta->Solicitud_Examen as $examen)
+                        @if ($loop->first)
+                        {{$examen->detalle}}
+                        @else
+                        @endif
+                        @endforeach
+                        </td>
+                        @else
+                        </td>
+                        <td></td>
+                        @endif
+                        @if (isset($consulta->Receta))
+                            <td><a href="{{route('recetaPDF.descargar', $consulta->id)}}"> Obtener</td>
+                        @else
+                            <td></td>
+                        @endif
+                        @if (empty($consulta->Solicitud_Examen))
+                            <td><a href="{{route('examenesPDF.descargar', $consulta->id)}}">Obtener</td>
+                        @else
+                            <td></td>
+                        @endif
                     </tr>
             @endif
             @else
                     <tr>
-                        <td>{{$consulta->Cita->Paciente->nombre}}</td>
-                        <td>{{$consulta->Cita->Paciente->apellido}}</td>
+                        <td>{{$consulta->Cita->Paciente->nombre}} {{$consulta->Cita->Paciente->apellido}}</td>
                         <td>{{$consulta->Cita->Medico->nombre}} {{$consulta->Cita->Medico->apellido}} </td>
-                        <td>{{$consulta->Cita->fecha}}</td>
+                        <td>{{$consulta->fecha}}</td>
                         <td>{{$consulta->sintomas}}</td>
                         <td>{{$consulta->tratamiento}}</td>
                         <td>{{$consulta->diagnostico}}</td>
+                        @if (isset($consulta->Receta))
+                            <td>{{$consulta->Receta->medicamentos}}</td>
+                            <td>{{$consulta->Receta->tratamiento}}</td>
+                        @else
+                            <td></td>
+                            <td></td>
+                        @endif
+                        <td>
+                        @if (isset($consulta->Solicitud_Examen))
+                        @foreach ($consulta->Solicitud_Examen as $examen)
+                        {{$examen->Tipo_examen->nombre}}
+                        @endforeach
+                        </td>
+                        <td>
+                        @foreach ($consulta->Solicitud_Examen as $examen)
+                        @if ($loop->first)
+                        {{$examen->detalle}}
+                        @else
+                        @endif
+                        @endforeach
+                        </td>
+                        @else
+                        </td>
+                        <td></td>
+                        @endif
+                        @if (isset($consulta->Receta))
+                            <td><a href="{{route('recetaPDF.descargar', $consulta->id)}}"> Obtener</td>
+                        @else
+                            <td></td>
+                        @endif
+                        @if (empty($consulta->Solicitud_Examen))
+                            <td><a href="{{route('examenesPDF.descargar', $consulta->id)}}">Obtener</td>
+                        @else
+                            <td></td>
+                        @endif
                     </tr>
             @endif
             @endforeach

@@ -7,7 +7,9 @@ use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\ExamenPDFController;
 use App\Http\Controllers\RecetaController;
+use App\Http\Controllers\RecetaPDFController;
 use App\Http\Controllers\SolicitudExamenController;
 
 /*
@@ -51,6 +53,10 @@ Route::post('/Cita/agendar', [CitaController::class,'agendarCita'])->name('cita.
 Route::post('/Cita/modificar', [CitaController::class,'modificarCita'])->name('cita.modificar');
 Route::post('/Consulta/guardar',[ConsultaController::class, 'guardar'])->name('consulta.guardar');
 Route::get('/Recetas/Paciente',[RecetaController::class,'recetasCliente'])->name('recetasCliente.get');
+Route::get('/RecetaPDF/{id}',[RecetaPDFController::class,'obtenerReceta'])->name('receta.pdf');
+Route::get('/RecetaPDF/download/{id}',[RecetaPDFController::class,'downloadPDF'])->name('recetaPDF.descargar');
+Route::get('/ExamenesPDF/{id}',[ExamenPDFController::class,'obtenerExamenes'])->name('examenes.pdf');
+Route::get('/ExamenesPDF/download/{id}',[ExamenPDFController::class,'downloadPDF'])->name('examenesPDF.descargar');
 Route::resource('/SolicitudesExamenes',SolicitudExamenController::class);
 Route::resource('/HistorialMedico',ConsultaController::class);
 Route::resource('/Recetas',RecetaController::class);
