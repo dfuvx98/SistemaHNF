@@ -14,7 +14,7 @@
                 <tr class="info">
                     <th>Nombre</th>
                     <th>Apellido</th>
-                    <th>Cedula</th>
+                    <th>Cédula</th>
                     <th>Usuario</th>
                     <th>Email</th>
                     <th>Especialidades</th>

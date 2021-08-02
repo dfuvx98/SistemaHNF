@@ -14,7 +14,7 @@
                         @csrf
                         <div class="form-group row">
                             <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <input id="nombre" type="text" class="form-control" @error('nombre') is-invalid @enderror name="nombre" required autocomplete="nombre" autofocus>
                                 @error('nombre')
@@ -22,12 +22,12 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>                                                        
+                            </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="apellido" class="col-md-4 col-form-label text-md-right">{{ __('Apellido') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <input id="apellido" type="text" class="form-control" @error('apellido') is-invalid @enderror name="apellido" required autocomplete="apellido" autofocus>
                                 @error('apellido')
@@ -35,13 +35,13 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>                                                        
+                            </div>
                         </div>
 
 
                         <div class="form-group row">
                             <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cédula') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <input id="cedula" type="text" class="form-control" @error('cedula') is-invalid @enderror name="cedula" required autocomplete="cedula" autofocus>
                                 @error('cedula')
@@ -49,27 +49,27 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>                                                        
+                            </div>
                         </div>
-                        
+
                         <div class="form-group row">
                             <label for="especialidad" class="col-md-4 col-form-label text-md-right">{{ __('Especialidades') }}</label>
                             <div class="col-md-6">
                                 <select class="form-control selection" id="especialidad" name="especialidad[]" multiple="multiple" required >
                                     @if (isSet($especialidades))
                                         @foreach ($especialidades as $especialidad)
-                                            <option value="{{ $especialidad->id}}">{{ $especialidad->nombre}}</option>        
+                                            <option value="{{ $especialidad->id}}">{{ $especialidad->nombre}}</option>
                                         @endforeach
                                         @else
-                                        <option value="0">No existen especialidades</option>        
+                                        <option value="0">No existen especialidades</option>
                                     @endif
                                 </select>
-                            </div>                                                        
+                            </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" @error('email') is-invalid @enderror name="email" required autocomplete="email" autofocus>
                                 @error('email')
@@ -77,12 +77,12 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>                                                        
+                            </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <input id="telefono" type="text" class="form-control" @error('telefono') is-invalid @enderror name="telefono" required autocomplete="telefono" autofocus>
                                 @error('telefono')
@@ -90,12 +90,12 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>                                                        
+                            </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="direccion" class="col-md-4 col-form-label text-md-right">{{ __('Dirección') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <input id="direccion" type="text" class="form-control" @error('direccion') is-invalid @enderror name="direccion" required autocomplete="direccion" autofocus>
                                 @error('direccion')
@@ -103,12 +103,12 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>                                                        
+                            </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="ciudadResi" class="col-md-4 col-form-label text-md-right">{{ __('Ciudad de Residencia') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <input id="ciudadResi" type="text" class="form-control" @error('ciudadResi') is-invalid @enderror name="ciudadResi" required autocomplete="ciudadResi" autofocus>
                                 @error('ciudadResi')
@@ -116,12 +116,12 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>                                                        
+                            </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="fechaNacimiento" class="col-md-4 col-form-label text-md-right">{{ __('Fecha de Nacimiento') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <input id="fechaNacimiento" type="date" class="form-control" @error('fechaNacimiento') is-invalid @enderror name="fechaNacimiento" required autocomplete="fechaNacimiento" autofocus>
                                 @error('fechaNacimiento')
@@ -129,18 +129,18 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>                                                        
+                            </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="genero" class="col-md-4 col-form-label text-md-right">{{ __('Genero') }}</label>
-                            
+
                             <div class="col-md-6">
                                 <select name="genero" id="genero" class="form-control">
-                                    <option value="Masculino">Masculino</option>    
-                                    <option value="Femenino">Femenino</option>    
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
                                   </select>
-                            </div>                                                        
+                            </div>
                         </div>
 
                         <div class="form-group row mb-0">
@@ -148,7 +148,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Registrar') }}
                                 </button>
-                                <a class=" button btn btn-danger"href="{{route('personaMostrarMedicos')}}">Cancelar</a>           
+                                <a class=" button btn btn-danger"href="{{route('personaMostrarMedicos')}}">Cancelar</a>
                             </div>
                         </div>
                     </form>

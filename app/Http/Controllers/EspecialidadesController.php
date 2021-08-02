@@ -90,14 +90,19 @@ class EspecialidadesController extends Controller
     public function obtenerMedicos($id){
         $person_espe = Persona_especialidad::where('idEspecialidad', $id)->get();
         $array = [];
-        foreach($person_espe as $person){
-            if($person->idPersona){
-                $persona = Persona::findOrFail($person->idPersona);
-                if($persona){
-                    array_push($array,$persona);
+        try {
+            foreach($person_espe as $person){
+                if($person->idPersona){
+                    $persona = Persona::where('estado', 1)->findOrFail($person->idPersona);
+                    if($persona){
+                        array_push($array,$persona);
+                    }
                 }
             }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
+
         return response()->json($array);
     }
 

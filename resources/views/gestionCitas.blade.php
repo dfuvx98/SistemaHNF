@@ -29,7 +29,6 @@
               </button>
             </div>
             <div class="modal-body">
-                @if (Auth::user()->role !== 'medico')
                     <form id="formCita">
                         <div class="form-group row">
                             <label for="paciente" class="col-md-4 col-form-label text-md-right">{{ __('Paciente') }}</label>
@@ -90,7 +89,6 @@
                             </div>
                         </div>
                     </form>
-                @endif
             </div>
             <div class="modal-footer justify-content-center text-center">
                 <div class="text-center">
@@ -107,7 +105,7 @@
           </div>
         </div>
       </div>
-      <!-- Modal para ver cita que ya esté agendada, falta hacer que guarde los datos -->
+      <!-- Modal para ver cita que ya esté agendada -->
       <div class="modal fade " id="modalVerCita" tabindex="-1" role="dialog" aria-labelledby="modalVerCitaLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -199,7 +197,7 @@
 
                         <h6>Datos de Consulta</h6>
                         <div class="form-group row">
-                            <label for="sintomas" class="col-md-4 col-form-label text-md-right">{{ __('Sintomas') }}</label>
+                            <label for="sintomas" class="col-md-4 col-form-label text-md-right">{{ __('Síntomas') }}</label>
                             <div class="col-md-6">
                                 <textarea id="sintomas" name="sintomas"> </textarea>
                                 <span class="invalid-feedback" role="alert">
@@ -234,7 +232,7 @@
                                 </span>
                             </div>
                         </div>
-                        <label for="solExalemens" class="col-md-4 col-form-label text-md-right">{{ __('Solicitar Examenes') }}</label>
+                        <label for="solExalemens" class="col-md-4 col-form-label text-md-right">{{ __('Solicitar Exámenes') }}</label>
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="form-check col">
@@ -262,7 +260,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="tiposExamenes" class="col-md-4 col-form-label text-md-right">{{ __('Tipos de Examenes') }}</label>
+                                <label for="tiposExamenes" class="col-md-4 col-form-label text-md-right">{{ __('Tipos de Exámenes') }}</label>
                                 <div class="col-md-6">
                                     <select class="form-control selection" id="tiposExamenes" name="tiposExamenes[]" style="width: 100%" multiple="multiple" required>
                                         @if (isSet($tiposExamenes))
@@ -324,6 +322,7 @@
 @endsection
 @section('css_extra')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 <style>
     .select2-container .select2-selection--single {
         height: 37px;
@@ -408,7 +407,7 @@
                 editable: true,
                 //Lista de todas las citas, vacía porque aun no coje valores
                 events: [],
-                slotMinTime:'08:00:00',
+                slotMinTime:'09:00:00',
                 displayEventTime: true,
                 slotMaxTime:'18:00:00',
                 selectable: true,
@@ -425,6 +424,11 @@
                         if ( rolUsuario === 'medico') { return;}
                         if(date<fechaActual){
                             console.log(fechaActual);
+                            Swal.fire({
+                            icon: 'error',
+                            title: 'Fecha no permitida',
+                            text: 'No se puede agendar antes de la fecha actual ',
+                        });
                             return;
                         }
                         $('#modalAgendaCita').modal('show');
@@ -583,7 +587,7 @@
                         //document.getElementById('botonCancelar').style.display = 'block';
                         console.log('datos', datos);
                         //si hay datos del paciente asignar paciente en el modal
-                        if (datos.paciente) {
+                        if (datos.paciente !== undefined && datos.paciente != null) {
                             document.getElementById('paciente2').value = datos.paciente.nombre+' '+datos.paciente.apellido;
 
                             if(rolUsuario == 'medico'){
@@ -632,6 +636,11 @@
             errorHora.innerHTML = 'Fuera de horario'
             form.hora.setAttribute('is-invalid',true)
             console.log('Fuera de horario');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al agendar cita',
+                text: 'El horario de las citas es de 9:00 a 12:00 y de 16:00 a 18:00 ',
+            });
             return;
         } else {
             const fecha = new Date(form.fecha.value+'T00:00:00');
@@ -674,10 +683,18 @@
                             allDay: false,
                             start: form.fecha.value+' '+form.hora.value,
                             end: form.fecha.value+' '+hora[0]+':'+finHora,
+                            data:response.cita,
                         };
                         calendar.addEvent(nuevo);
                         $('#modalAgendaCita').modal('hide');
 
+                    }else{
+                        if(response.error)
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error al agendar cita',
+                            text: 'El médico ya tiene ocupado ese horario en otra cita',
+                        });
                     }
                 }
             }
@@ -793,8 +810,14 @@
         var hora = parseInt(horaTxt[0]);
         var minutos = parseInt(horaTxt[1]);
         var fueraHorario = false;
-        if((hora < 9 || (hora >= 12 && minutos >  0) ) && (hora < 16 || (hora >= 18 && minutos > 0))) {
-            fueraHorario=true
+        if (hora < 13 ) {
+            if((hora < 9 || (hora >= 12 && minutos >  0) ) ) {
+                fueraHorario=true
+            }
+        } else {
+            if ((hora < 16 || (hora >= 18 && minutos > 0))) {
+                fueraHorario=true
+            }
         }
         if (!fueraHorario){
             if(minutos != 0  && minutos != 30 ) {
@@ -812,7 +835,7 @@
             document.querySelector('.content_detail_examen').style.display = 'none';
         $(this).find('form').trigger('reset');
             }
-        //falta código para poder vaciar el select2
+
         timePicker.hide();
         datePicker.hide();
     }
@@ -842,16 +865,18 @@
     }
 
     function changeSelector(id, infoMedico){
-        console.log('cambiando Especialidad')
+        var medicos = $('#medico');
+                medicos
+                .find('option')
+                .remove();
+
+            medicos.val(null).change();
+
         $.ajax({
             type: 'get',
             //Voy con Url de la ruta en vez del nombre
             url: '/especialidades/medicos/'+id,
             success: function (data) {
-                var medicos = $('#medico');
-                medicos
-                .find('option')
-                .remove();
                 if (data.length > 0 ) {
                     for (const key in data) {
                         var datos = data[key];
@@ -901,6 +926,7 @@
     $('#medico').select2({
         dropdownParent: $('#modalAgendaCita'),
     });
+
     $('#tiposExamenes').select2({
         dropdownParent: $('#modalVerCita'),
     });

@@ -72,7 +72,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cedula') }}</label>
+                            <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cédula') }}</label>
 
                             <div class="col-md-6">
                                 <input id="cedula" type="text" class="form-control" @error('cedula') is-invalid @enderror name="cedula" value="{{ old('cedula') }}" required autocomplete="cedula" autofocus>

@@ -55,13 +55,14 @@ class CitaController extends Controller
     }*/
 
     public function agendarCita(Request $request) {
+
         $agendada = Cita::where('fecha',$request['fecha'])->where('hora',$request['hora'])->where('idPersonaD',$request['medico'])->where('estado',1)->get();
         $objeto = [];
         if( $agendada && count($agendada) > 0){
             $objeto['error'] = 'Error: ya existe una cita con este medico en la hora y fecha fijada';
             return response()->json($objeto);
         }else{
-            $cita = Cita::create([
+            $citaTemp = Cita::create([
                 'idPersonaD' => $request['medico'],
                 'idPersonaP' => $request['paciente'],
                 'fecha' => $request['fecha'],
@@ -69,8 +70,9 @@ class CitaController extends Controller
                 'idEspecialidad' => $request['especialidad'],
                 'estado'=> '1'
             ]);
+            $cita = Cita::with('Paciente','Medico','Especialidades')->where('citas.id', $citaTemp->id)->get();
             $objeto['success'] = 'Se agendo la cita con exito';
-            $objeto['cita'] = $cita;
+            $objeto['cita'] = $cita[0];
             return response()->json($objeto);
         }
     }

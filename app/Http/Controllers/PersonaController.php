@@ -34,6 +34,26 @@ class PersonaController extends Controller
 
 
     public function guardarMedico(Request $request){
+
+        $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'cedula' => 'required|max:10',
+            'email' => 'required',
+            'telefono' => 'required|max:10',
+            'direccion' => 'required',
+            'ciudadResi' => 'required',
+            'fechaNacimiento' => 'required',
+            'genero' => 'required',
+        ],
+        [
+
+            'nombre.required' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres",
+            'cedula.max' =>"La cedula no puede ser mayor a 10 caracteres"
+        ]);
+
+
+
         $especialidades = $request->especialidad;
 
         $medico= Persona::create([
@@ -69,6 +89,22 @@ class PersonaController extends Controller
 
 
     public function updateMedico(Request $request, $id){
+        $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'cedula' => 'required|max:10',
+            'email' => 'required',
+            'telefono' => 'required|max:10',
+            'direccion' => 'required',
+            'ciudadResi' => 'required',
+            'fechaNacimiento' => 'required',
+            'genero' => 'required',
+        ],
+        [
+
+            'nombre.required' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres",
+            'cedula.max' =>"La cedula no puede ser mayor a 10 caracteres"
+        ]);
         $medico = Persona::findOrFail($id);
         $medico->fill($request->all());
         if($medico ->save()){
@@ -113,6 +149,23 @@ class PersonaController extends Controller
 
     protected function storeCliente(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'cedula' => 'required|max:10',
+            'email' => 'required',
+            'telefono' => 'required|max:10',
+            'direccion' => 'required',
+            'ciudadResi' => 'required',
+            'fechaNacimiento' => 'required',
+            'genero' => 'required',
+        ],
+        [
+
+            'nombre.required' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres",
+            'cedula.max' =>"La cedula no puede ser mayor a 10 caracteres"
+        ]);
+
         $cliente= Persona::create([
             'nombre' => $request['name'],
             'apellido' => $request['surname'],
@@ -151,6 +204,7 @@ class PersonaController extends Controller
 
     protected function storePaciente(Request $request)
     {
+
             Persona::create([
             'nombre' => $request['name'],
             'apellido' => $request['surname'],

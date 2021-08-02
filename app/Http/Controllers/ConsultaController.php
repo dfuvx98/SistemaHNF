@@ -43,8 +43,6 @@ class ConsultaController extends Controller
                     'fecha'=> $request['fecha'],
                     'hora'=> $request['hora']
                 ]);
-
-
                 if($request['solicitaExamenes'] === 'si') {
                     $detalleExamen = $request['detalleExamen'];
                     if (count($request['tiposExamenes']) > 0 && $detalleExamen!==null) {
@@ -82,7 +80,18 @@ class ConsultaController extends Controller
     }
 
     public function index(){
-        $consultas = Consulta::all();
+        $usuario = Auth::user();
+        $consultas =  $consultas = Consulta::all();
+        if ($usuario->role == 'cliente') {
+            $temConsulta = [];
+            foreach ($consultas as $consulta) {
+                if (Auth::user()->idPersona == $consulta->Cita->Paciente->id || Auth::user()->idPersona == $consulta->Cita->Paciente->idPersona) {
+                    array_push($temConsulta, $consulta);
+                }
+            }
+            $consultas = $temConsulta;
+        }
+
         return view ('historialMedico',compact('consultas'));
     }
 }

@@ -31,7 +31,7 @@
 </head>
 <body class="bg-info">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-primary shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
             <div class="container">
                 @if (Auth::user())
                 <a class="navbar-brand" href="{{ url('/home') }}">
@@ -108,12 +108,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('HistorialMedico.index') }}">{{ __('Historial Médico') }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link"  href="{{ route('Recetas.index') }}">{{ __('Recetas Pacientes') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('SolicitudesExamenes.index') }}">{{ __('Solicitudes Exámenes') }}</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cita.index') }}">{{ __('Revisar Agenda') }}</a>
                         </li>
@@ -141,12 +136,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('HistorialMedico.index') }}">{{ __('Historial Médico') }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('Recetas.index') }}">{{ __('Recetas') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('SolicitudesExamenes.index') }}">{{ __('Solicitudes Exámenes') }}</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cita.index') }}">{{ __('Gestión citas') }}</a>
                         </li>
