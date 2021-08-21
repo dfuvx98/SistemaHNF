@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Especialidades;
 use App\Models\Tipo_examen;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CitaController extends Controller
 {
@@ -178,6 +179,29 @@ class CitaController extends Controller
             $objeto['error'] = 'No se encontro cita a editar';
             return response()->json($objeto);
         }
+    }
+
+    public function reporte(){
+
+        $especialidades = Especialidades::all();
+
+        $totalCitas = DB::table('citas')->selectRaw('idEspecialidad, count(*) as total')->groupBy('idEspecialidad')->get();
+        $rangoEdades= DB::table('personas AS p')
+        ->join('citas', 'idPersonaP', '=', 'p.id')
+        ->selectRaw("distinct idEspecialidad, case
+                     WHEN fechaNacimiento  > '2011-01-01'  THEN '1-10'
+                     WHEN fechaNacimiento > '2001-01-01' THEN '11-20'
+                     WHEN fechaNacimiento > '1991-01-01' THEN '21-30'
+                     WHEN fechaNacimiento > '1981-01-01' THEN '31-40'
+                     WHEN fechaNacimiento > '1971-01-01' THEN '41-50'
+                     ELSE '50+'
+                     END as rangoEdades, count(*) as total")
+        ->groupByRaw('rangoEdades, idEspecialidad')
+        ->get();
+
+
+      return view('reporte',compact('especialidades','totalCitas','rangoEdades'));
+
     }
 
 }

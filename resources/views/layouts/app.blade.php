@@ -85,6 +85,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('paciente.create') }}">{{ __('Registrar Paciente') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('citas.reporte') }}">{{ __('Reporte Citas') }}</a>
+                        </li>
+
 
 
                             <li class="nav-item dropdown">

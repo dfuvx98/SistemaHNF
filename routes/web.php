@@ -56,6 +56,7 @@ Route::get('/RecetaPDF/{id}',[RecetaPDFController::class,'obtenerReceta'])->name
 Route::get('/RecetaPDF/download/{id}',[RecetaPDFController::class,'downloadPDF'])->name('recetaPDF.descargar')->middleware('auth');
 Route::get('/ExamenesPDF/{id}',[ExamenPDFController::class,'obtenerExamenes'])->name('examenes.pdf')->middleware('auth');
 Route::get('/ExamenesPDF/download/{id}',[ExamenPDFController::class,'downloadPDF'])->name('examenesPDF.descargar')->middleware('auth');
+Route::get('/Citas/Reporte',[CitaController::class,'reporte'])->name('citas.reporte')->middleware('auth');
 Route::resource('/SolicitudesExamenes',SolicitudExamenController::class);
 Route::resource('/HistorialMedico',ConsultaController::class);
 Route::resource('/Recetas',RecetaController::class);
