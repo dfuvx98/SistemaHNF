@@ -94,4 +94,8 @@ class ConsultaController extends Controller
 
         return view ('historialMedico',compact('consultas'));
     }
+
+    public function calificarConsulta(Request $request){
+
+    }
 }

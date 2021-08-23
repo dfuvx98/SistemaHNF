@@ -24,6 +24,7 @@
                     <th>Detalle</th>
                     <th>Generar Receta</th>
                     <th>Generar Examen</th>
+                    <th>Calificación cita</th>
 
 
 
@@ -75,6 +76,13 @@
                         @else
                             <td><a href="{{route('examenesPDF.descargar', $consulta->id)}}">Obtener</td>
                         @endif
+                        @if (isset($consulta->Calificación))
+                        <td>{{$consulta->Calificacion}}</td>
+                        @elseif(Auth::user()->role == 'cliente')
+                        <td><a href="#" onclick="mostrarModal({{$consulta->id}});"> Calificar</a></td>
+                        @else
+                        <td></td>
+                        @endif
                     </tr>
             @endforeach
         </tbody>
@@ -97,5 +105,23 @@
     autoWidth: false
 });
     });
+</script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function mostrarModal($id){
+    Swal.fire({
+        title: 'Califique la consulta',
+        input: 'range',
+        inputLabel: 'Seleccione un valor del 1 al 10, 1 es pésimo y 10 es excelente',
+        inputAttributes: {
+            min: '1',
+            max: '10',
+            step: '1',
+        },
+        inputValue: '5'
+
+        })
+    }
 </script>
 @endsection

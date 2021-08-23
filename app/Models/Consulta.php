@@ -18,7 +18,8 @@ class Consulta extends Model
         'diagnostico',
         'fecha_proximo_control',
         'fecha',
-        'hora'
+        'hora',
+        'calificacion'
     ];
 
     public function Solicitud_Examen(){

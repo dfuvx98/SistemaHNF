@@ -27,61 +27,110 @@
                     <td>{{$especialidad->nombre}}</td>
 
                 <td>
+                @php $encontrado =0;
+                @endphp
                 @foreach ($totalCitas as $totalCita)
                     @if ($totalCita->idEspecialidad == $especialidad->id)
                         {{$totalCita->total}}
+                    @php $encontrado =1;
+                    @endphp
                     @else
                     @endif
-
                 @endforeach
+                @if ($encontrado==0)
+                    {{0}}
+                @endif
                 </td>
                 <td>
+                @php $encontrado =0;
+                @endphp
                 @foreach ($rangoEdades as $rangoEdad)
                     @if($rangoEdad->idEspecialidad == $especialidad->id && $rangoEdad->rangoEdades=='1-10')
                     {{$rangoEdad->total}}
+                    @php $encontrado =1;
+                    @endphp
+                @endphp
                     @else
                     @endif
                 @endforeach
+                @if ($encontrado==0)
+                    {{0}}
+                @endif
                 </td>
                 <td>
+                @php $encontrado =0;
+                @endphp
                 @foreach ($rangoEdades as $rangoEdad)
                     @if($rangoEdad->idEspecialidad == $especialidad->id && $rangoEdad->rangoEdades=='11-20')
                    {{$rangoEdad->total}}
+                @php $encontrado =1;
+                @endphp
                     @else
                     @endif
                 @endforeach
+                @if ($encontrado==0)
+                    {{0}}
+                @endif
                 </td>
                 <td>
+                @php $encontrado =0;
+                @endphp
                 @foreach ($rangoEdades as $rangoEdad)
                     @if($rangoEdad->idEspecialidad == $especialidad->id && $rangoEdad->rangoEdades=='21-30')
                    {{$rangoEdad->total}}
+                   @php $encontrado =1;
+                   @endphp
                     @else
                     @endif
                 @endforeach
+                @if ($encontrado==0)
+                    {{0}}
+                @endif
                 </td>
                 <td>
+                @php $encontrado =0;
+                @endphp
                 @foreach ($rangoEdades as $rangoEdad)
                     @if($rangoEdad->idEspecialidad == $especialidad->id && $rangoEdad->rangoEdades=='31-40')
                    {{$rangoEdad->total}}
+                   @php $encontrado =1;
+                   @endphp
                     @else
                     @endif
                 @endforeach
+                @if ($encontrado==0)
+                    {{0}}
+                @endif
                 </td>
                 <td>
+                @php $encontrado =0;
+                @endphp
                 @foreach ($rangoEdades as $rangoEdad)
                     @if($rangoEdad->idEspecialidad == $especialidad->id && $rangoEdad->rangoEdades=='41-50')
                    {{$rangoEdad->total}}
+                   @php $encontrado =1;
+                   @endphp
                     @else
                     @endif
                 @endforeach
+                @if ($encontrado==0)
+                    {{0}}
+                @endif
                 </td>
                 <td>
+                @php $encontrado =0;
+                @endphp
                 @foreach ($rangoEdades as $rangoEdad)
                     @if($rangoEdad->idEspecialidad == $especialidad->id && $rangoEdad->rangoEdades=='50+')
                    {{$rangoEdad->total}}
+                   @php $encontrado =1;
+                   @endphp
                     @else
                     @endif
                 @endforeach
+                @if ($encontrado==0)
+                    {{0}}
+                @endif
                 </td>
                 </tr>
                 @else

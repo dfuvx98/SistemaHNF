@@ -11,49 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class CitaController extends Controller
 {
-    //
-
-    /*
-    Método para cuando se usaba el formulario para crear la instancia de citas cita en la vista del formulario para agendar citas
-    public function create(){
-
-        if(Auth::user()){
-            $cita = new Cita();
-            $usuario = Auth::user();
-            if ($usuario->role == 'administrador')  {
-                $personas = Persona::where('idTipoPersona',2)->orWhere('idTipoPersona',3)->get();
-            }
-            elseif($usuario->role == 'cliente') {
-                $personas = Persona::where('id', $usuario->idPersona)->orWhere('idPersona',$usuario->idPersona)->get();
-            }
-            $especialidades = Especialidades::where('estado',True)->get();
-            return view('agendarCitas',compact('cita','personas','especialidades'));
-        }
-        return redirect('/login');
-    }*/
-
-    /*
-    Método para cuando se usaba el formulario para guardar la cita que se quería agendar
-
-    public function store(Request $request){
-
-        $agendada = Cita::where('fecha',$request['fecha'])->where('hora',$request['hora'])->where('idPersonaD',$request['medico'])->where('estado',1)->get();
-
-        if( $agendada && count($agendada) > 0){
-            return redirect()->route('cita.create');
-        }else{
-            Cita::create([
-                'idPersonaD' => $request['medico'],
-                'idPersonaP' => $request['paciente'],
-                'fecha' => $request['fecha'],
-                'hora' => $request['hora'],
-                'idEspecialidad' => $request['especialidad'],
-                'estado'=> '1'
-            ]);
-            return redirect()->route('cita.index');
-        }
-
-    }*/
 
     public function agendarCita(Request $request) {
 
@@ -78,44 +35,7 @@ class CitaController extends Controller
         }
     }
 
-    /*
 
-    public function modificarCita(Request $request) {
-        $cita = Cita::find($request['id_cita']);
-        $objeto = [];
-
-        if( $cita){
-            $cita['idPersonaD'] = $request['medico'];
-            $cita['idPersonaP'] = $request['paciente'];
-            $cita['fecha'] = $request['fecha'];
-            $cita['hora'] = $request['hora'];
-            $cita['idEspecialidad'] = $request['especialidad'];
-            $cita->save();
-            $objeto['success'] = 'Se modifico la cita con exito';
-            $objeto['cita'] = $cita;
-            return response()->json($objeto);
-        }else{
-            $objeto['error'] = 'No se encontro cita a editar';
-            return response()->json($objeto);
-        }
-    }*/
-
-    /*public function dropUpdateCitas(Request $request) {
-        $cita = Cita::find($request['id_cita']);
-        $objeto = [];
-
-        if( $cita){
-            $cita['fecha'] = $request['fecha'];
-            $cita['hora'] = $request['hora'];
-            $cita->save();
-            $objeto['success'] = 'Se modifico la cita con exito';
-            $objeto['cita'] = $cita;
-            return response()->json($objeto);
-        }else{
-            $objeto['error'] = 'No se encontro cita a editar';
-            return response()->json($objeto);
-        }
-    }*/
 
     public function index(){
         if(Auth::user()){
@@ -161,10 +81,10 @@ class CitaController extends Controller
         return response()->json($objeto);
     }
 
-    public function borrar($id){
+    /*public function borrar($id){
         $cita = Cita::with('Paciente','Medico','Especialidades')->findOrFail($id);
         return view ('cancelarCitas',compact('cita'));
-    }
+    }*/
 
     public function borrarCita(Request $request){
         $cita = Cita::find($request['id_cita']);
@@ -198,6 +118,7 @@ class CitaController extends Controller
                      END as rangoEdades, count(*) as total")
         ->groupByRaw('rangoEdades, idEspecialidad')
         ->get();
+
 
 
       return view('reporte',compact('especialidades','totalCitas','rangoEdades'));
