@@ -107,6 +107,8 @@ class PersonaController extends Controller
         ]);
         $medico = Persona::findOrFail($id);
         $medico->fill($request->all());
+        //recordar que también se debe actualizar los datos del usuario.
+
         if($medico ->save()){
             Persona_Especialidad::where('idPersona', $medico->id)->delete();
             $especialidades = $request->especialidades;
