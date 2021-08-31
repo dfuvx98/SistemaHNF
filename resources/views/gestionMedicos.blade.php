@@ -40,8 +40,8 @@
                         </td>
                         <td>{{$medico->telefono}}</td>
                         <td>{{$medico->genero}}</td>
-                        <td><a href="{{route('medico.edit', $medico->id)}}">Editar</a> &nbsp;&nbsp;
-                        <a href="{{route('medico.borrar', $medico->id)}}">Borrar</a></td>
+                        <td><a href="{{route('medico.edit', $medico->id)}}" style="color:blue">Editar</a> &nbsp;&nbsp;
+                        <a href="{{route('medico.borrar', $medico->id)}}" style="color:blue">Borrar</a></td>
                     </tr>
                 @endforeach
             </tbody>

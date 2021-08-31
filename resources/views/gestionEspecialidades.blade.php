@@ -31,8 +31,8 @@
                         <td>Desactivado</td>
                         @endif
                         <td>@if ($especialidad->estado==1)
-                                <a href="{{route('especialidades.edit', $especialidad->id)}}">Editar</a>&nbsp;&nbsp;
-                                <a href="{{route('especialidades.borrar', $especialidad->id)}}">Desactivar</a>
+                                <a href="{{route('especialidades.edit', $especialidad->id)}}" style="color:blue">Editar</a>&nbsp;&nbsp;
+                                <a href="{{route('especialidades.borrar', $especialidad->id)}}" style="color:blue">Desactivar</a>
                             @endif
                         </td>
                     @endif
