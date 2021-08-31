@@ -35,11 +35,11 @@
             <div class="container">
                 @if (Auth::user())
                 <a class="navbar-brand" href="{{ url('/home') }}">
-                    Hospital Nuestro Corazón
+                    Hospital Nuestra Familia
                 </a>
                 @else
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Hospital Nuestro Corazón
+                    Hospital Nuestra Familia
                 </a>
                 @endif
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
