@@ -29,7 +29,7 @@
 
 
 </head>
-<body>
+<body style="background-color:lightblue">
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
             <div class="container">
@@ -68,7 +68,8 @@
                                 </li>
                             @endif
                         @else
-
+                        @endguest
+                        @if(Auth::user())
                         @if (Auth::user()->role =='administrador')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('especialidades.index') }}">{{ __('Gestión Especialidades') }}</a>
@@ -159,7 +160,7 @@
                                     </form>
                                 </div>
                         @endif
-                        @endguest
+                        @endif
                     </ul>
                 </div>
             </div>
