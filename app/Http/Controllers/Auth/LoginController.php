@@ -46,17 +46,20 @@ class LoginController extends Controller
         /**
      * Intento de login personalizado que
      * permite loggearse solo si el usuario tiene el estado 1
-     * de activado
+     * de activado o 2 de que se va a loggear por primera vez y tiene la 
+     * contraseña por defecto.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
-    protected function attemptLogin(Request $request)
-    {
-        $credentials = $this->credentials($request);
-        $credentials['estado']=1;
-        return $this->guard()->attempt(
-            $credentials, $request->filled('remember')
-        );
-    }
+    protected function credentials(Request $request)
+{
+    $username = $this->username();
+
+    return [
+        $username => $request->get($username),
+        'password' => $request->get('password'),
+        'estado' => [ 1, 2 ], // OR condition
+    ];
+}
 }

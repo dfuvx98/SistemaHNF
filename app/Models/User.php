@@ -21,11 +21,8 @@ class User extends Authenticatable
     protected $fillable = [
         'role',
         'name',
-        'surname',
-        'nick',
         'email',
         'password',
-        'image',
         'idPersona',
         'estado'
     ];
@@ -50,4 +47,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeRole($query, $role)
+    {
+        return $query->where('role', $role);
+    }
 }

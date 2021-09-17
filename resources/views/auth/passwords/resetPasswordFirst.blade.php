@@ -5,15 +5,13 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Reiniciar Contraseña') }}</div>
+                <div class="card-header">{{ __('Asignar Contraseña') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
+                    <form method="POST" action="{{ route('contraseña.asignar.actualizar') }}">
                         @csrf
 
-                        <input type="hidden" name="id" value="{{ Auth }}">
 
-                        
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
@@ -37,10 +35,14 @@
                             </div>
                         </div>
 
+                        @if($errors->any())
+                        <h6 style="color:red">{{$errors->first()}}</h6>
+                        @endif
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
+                                    {{ __('Asignar contraseña') }}
                                 </button>
                             </div>
                         </div>

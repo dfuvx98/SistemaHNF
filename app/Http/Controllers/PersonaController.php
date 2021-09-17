@@ -74,7 +74,8 @@ class PersonaController extends Controller
             'email' => $request->email,
             'password' => Hash::make('D'.$request->cedula),
             'role' => 'medico',
-            'idPersona'=> $medico->id
+            'idPersona'=> $medico->id,
+            'estado' => 2
         ]);
         for ($i=0; $i < count($especialidades); $i++){
             Persona_Especialidad::create([
@@ -134,7 +135,7 @@ class PersonaController extends Controller
         $medico->estado =False;
         $personaID = $medico->id;
         $user = User::where('idPersona', $personaID)->firstOrFail();
-        $user->estado =False;
+        $user->estado =0;
         if($medico ->save() && $user->save()){
             return redirect()->route('personaMostrarMedicos');
         }else{
@@ -186,7 +187,8 @@ class PersonaController extends Controller
             'email' => $request['email'],
             'password' => Hash::make('C'.$request['cedula']),
             'role' => 'cliente',
-            'idPersona'=> $cliente->id
+            'idPersona'=> $cliente->id,
+            'estado' => 2
         ]);
         $mensaje = 'Se creó el cliente '.$cliente->nombre.' '.$cliente->apellido.' con usuario '. $usuario->name;
         return redirect()->route('home',['mensaje'=>$mensaje]);

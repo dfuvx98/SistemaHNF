@@ -100,7 +100,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make('C'.$data['cedula']),
             'role' => 'cliente',
-            'idPersona'=> $persona->id
+            'idPersona'=> $persona->id,
+            'estado'=> 2
         ]);
 
     }
