@@ -14,17 +14,17 @@ class EnsureUserHasRole
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        
-        if (! $request->user()->role($role)->get()) {
+         
+        //is now an array with all the roles you provided to the route.
+    
+        if (!$request->user() || !in_array($request->user()->role, $roles)) {
             // Redirect...
-           
+                           
             return back();
         }
-        
-        return $next($request);
-
-
+                            
+        return $next($request);           
     }
 }

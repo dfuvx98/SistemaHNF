@@ -18,12 +18,13 @@ class UserController extends Controller
     public function asignarContrasena(Request $request){
 
         $request->validate([
-            'password' => 'confirmed',
+            'password' => 'confirmed|min:8',
             
         ],
         [
 
             'password.confirmed' =>"Las contraseñas no coinciden",
+            'password.min' =>"Las contraseña debe tener como mínimo 8 caracteres",
         ]);
 
         $usuario = Auth::user();

@@ -20,9 +20,12 @@ class PersonaController extends Controller
 
     public function editarMedico($id){
         $medico = Persona::findOrFail($id);
+        if($medico->estado!=false){
         $especialidades = Especialidades::where('estado',True)->get();
         $especialidadesMedicos = Persona_Especialidad::where('idPersona',$medico->id)->get();
         return view ('formularioEditarMedico',compact('medico','especialidades','especialidadesMedicos'));
+        }
+        else return back();
     }
 
 
@@ -36,11 +39,11 @@ class PersonaController extends Controller
     public function guardarMedico(Request $request){
 
         $request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'cedula' => 'required|max:10',
-            'email' => 'required',
-            'telefono' => 'required|max:10',
+            'nombre' => 'required|max:40|',
+            'apellido' => 'required|max:40|',
+            'cedula' => 'required|digits:10|numeric',
+            'email' => 'required|unique:users',
+            'telefono' => 'required|between:9,15|',
             'direccion' => 'required',
             'ciudadResi' => 'required',
             'fechaNacimiento' => 'required',
@@ -48,14 +51,20 @@ class PersonaController extends Controller
         ],
         [
 
-            'nombre.required' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres",
-            'cedula.max' =>"La cedula no puede ser mayor a 10 caracteres"
+            
+            'nombre.max' =>"El nombre de la persona no puede ser mayor a 40 caracteres",
+            'apellido.max' =>"El apellido de la persona no puede ser mayor a 40 caracteres",
+            'cedula.digits' =>"La cédula tiene que tener 10 caracteres",
+            'cedula.numeric' =>"La cédula tiene que ser numérica",
+            'telefono.between' =>"El número de teléfono tiene que tener entre 9 y 15 caracteres",
+            'email.unique' =>"Ya existe un usuario con ese correo electrónico"
         ]);
 
 
 
         $especialidades = $request->especialidad;
-
+        
+       
         $medico= Persona::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
@@ -91,11 +100,11 @@ class PersonaController extends Controller
 
     public function updateMedico(Request $request, $id){
         $request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'cedula' => 'required|max:10',
+            'nombre' => 'required|max:40|',
+            'apellido' => 'required|max:40|',
+            'cedula' => 'required|digits:10|numeric',
             'email' => 'required',
-            'telefono' => 'required|max:10',
+            'telefono' => 'required|between:9,15|',
             'direccion' => 'required',
             'ciudadResi' => 'required',
             'fechaNacimiento' => 'required',
@@ -103,12 +112,19 @@ class PersonaController extends Controller
         ],
         [
 
-            'nombre.required' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres",
-            'cedula.max' =>"La cedula no puede ser mayor a 10 caracteres"
+            
+            'nombre.max' =>"El nombre de la persona no puede ser mayor a 40 caracteres",
+            'apellido.max' =>"El apellido de la persona no puede ser mayor a 40 caracteres",
+            'cedula.digits' =>"La cédula tiene que tener 10 caracteres",
+            'cedula.numeric' =>"La cédula tiene que ser numérica",
+            'telefono.between' =>"El número de teléfono tiene que tener entre 9 y 15 caracteres",
+            
         ]);
+
         $medico = Persona::findOrFail($id);
+        $especialidades = $request->especialidad;
         $medico->fill($request->all());
-        //recordar que también se debe actualizar los datos del usuario.
+        
 
         if($medico ->save()){
             Persona_Especialidad::where('idPersona', $medico->id)->delete();
@@ -152,23 +168,28 @@ class PersonaController extends Controller
 
     protected function storeCliente(Request $request)
     {
+        
         $request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'cedula' => 'required|max:10',
-            'email' => 'required',
-            'telefono' => 'required|max:10',
+            'name' => 'required|max:40|',
+            'surname' => 'required|max:40|',
+            'cedula' => 'required|digits:10|numeric',
+            'email' => 'required|unique:users',
+            'telefono' => 'required|between:9,15',
             'direccion' => 'required',
             'ciudadResi' => 'required',
             'fechaNacimiento' => 'required',
             'genero' => 'required',
         ],
         [
-
-            'nombre.required' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres",
-            'cedula.max' =>"La cedula no puede ser mayor a 10 caracteres"
+            'name.max' =>"El nombre de la especialidad no puede ser mayor a 40 caracteres",
+            'surname.max' =>"El apellido de la especialidad no puede ser mayor a 40 caracteres",
+            'cedula.digits' =>"La cédula tiene que tener 10 caracteres",
+            'cedula.numeric' =>"La cédula tiene que ser numérica",
+            'telefono.between' =>"El número de teléfono tiene que tener entre 9 y 15 caracteres",
+            'email.unique' =>"Ya existe un usuario con ese correo electrónico"
         ]);
-
+        
+        
         $cliente= Persona::create([
             'nombre' => $request['name'],
             'apellido' => $request['surname'],
@@ -208,7 +229,23 @@ class PersonaController extends Controller
 
     protected function storePaciente(Request $request)
     {
-
+        
+        $request->validate([
+            'name' => 'required|max:40|',
+            'surname' => 'required|max:40|',
+            'cedula' => 'required|digits:10|numeric',
+            'direccion' => 'required',
+            'ciudadResi' => 'required',
+            'fechaNacimiento' => 'required',
+            'genero' => 'required',
+        ],
+        [
+            'name.max' =>"El nombre de la especialidad no puede ser mayor a 40 caracteres",
+            'surname.max' =>"El apellido de la especialidad no puede ser mayor a 40 caracteres",
+            'cedula.digits' =>"La cédula tiene que tener 10 caracteres",
+            'cedula.numeric' =>"La cédula tiene que ser numérica",
+            
+        ]);
             Persona::create([
             'nombre' => $request['name'],
             'apellido' => $request['surname'],

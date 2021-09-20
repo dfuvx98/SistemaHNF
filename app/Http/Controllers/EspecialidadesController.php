@@ -12,7 +12,7 @@ class EspecialidadesController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:15']
+            'name' => ['required', 'string', 'max:15','alpha']
         ]);
     }
 
@@ -23,7 +23,11 @@ class EspecialidadesController extends Controller
 
     public function edit ($id){
         $especialidad = Especialidades::findOrFail($id);
-        return view ('formularioEditarEspecialidad',compact('especialidad'));
+        if($especialidad->estado !=false){
+            return view ('formularioEditarEspecialidad',compact('especialidad'));
+        }
+        else return back();
+        
     }
 
     public function show($id){
@@ -32,11 +36,12 @@ class EspecialidadesController extends Controller
     }
     public function update(Request $request, $id){
         $request->validate([
-            'nombre' => 'required|unique:especialidades|max:20'
+            'nombre' => 'required|unique:especialidades|max:20|alpha'
         ],
         [
             'nombre.unique' =>"Ingrese una especialidad que no esté ya ingresada en el sistema",
-            'nombre.max' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres"
+            'nombre.max' =>"El nombre de la especialidad no puede ser mayor a 20 caracteres",
+            'nombre.alpha'=>"El nombre de la especialidad no puede contener números"
         ]);
         $especialidad = Especialidades::findOrFail($id);
         $especialidad->fill($request->all());

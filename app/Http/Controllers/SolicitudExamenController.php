@@ -8,8 +8,5 @@ class SolicitudExamenController extends Controller
 {
     //
 
-    public function index(){
-        $examenes = Solicitud_Examen::all();
-        return view ('examenes',compact('examenes'));
-    }
+    
 }

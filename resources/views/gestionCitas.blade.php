@@ -401,7 +401,7 @@
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    right: 'dayGridMonth,timeGridWeek'
                 },
                 allDaySlot: false,
                 editable: true,
@@ -447,104 +447,8 @@
                         calendar.changeView('timeGridDay');
                     }
                 },
-                /*eventDrop: function (info) {
-                    if ( rolUsuario === 'medico') { info.revert(); return;}
-                    const date = new Date(info.event.start)
-                    if ( date < new Date()) {
-                        info.revert();
-                        return
-                    }
-                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-                    const hora = date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit' });
-                    const fecha = date.toISOString().split('T')[0]
-                    customButtons.fire({
-                            title: 'Está seguro de continuar?',
-                            text: "La cita será movida a \n"+ date.toLocaleDateString('es-ES', options) + " a las " + hora,
-                            icon: 'warning',
-                            showCancelButton: true,
-                            showCloseButton: true,
-                            confirmButtonText: 'Sí, continuar!',
-                            cancelButtonText: 'No, Cancelar!',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    idAModificar = info.event.id
-                                    eventAModificar = info.event
-                                    var ajax = new XMLHttpRequest();
-                                    ajax.open('POST', '/Cita/dropUpdate', true);
-                                    let data = new FormData();
-                                    data.append('id_cita',idAModificar);
-                                    data.append('hora',hora);
-                                    data.append('fecha',fecha);
-                                    //codigo para poner la cita en la base de datos
-                                    ajax.setRequestHeader('X-CSRF-TOKEN', document.querySelector("input[name='_token']").value);
-                                    ajax.send(data);
-                                    //codigo para meter la cita en el fullCalendar
-                                    ajax.onload = () => {
-                                        if(ajax.responseText){
-                                            console.log('response', ajax.responseText);
-                                            const response = JSON.parse(ajax.responseText);
-                                            if(response.success){
-                                                return;
-                                            }
-                                        }
-                                        info.revert();
-                                    }
-                                } else {
-                                    info.revert();
-                                }
-                        })
-                },*/
-                /*eventClick: function (info) {
-                    //llamar modal
-                    $('#modalAgendaCita').modal('show');
-                    $('#modalAgendaCita').on('hide.bs.modal', hiddenPickers);
-                    if (rolUsuario !== 'medico') {
-                        //poner titulo al modal si se modifica
-                        TitleModal = 'Modificar Cita';
-                        //Metet el titulo en el modal
-                        document.getElementById('modalAgendaCitaLabel').innerHTML = TitleModal
-                        //llamar datos de la cita asignada en el full calendar
-                        datos =info.event._def.extendedProps.data;
-                        //coger la fecha del evento
-                        const date = new Date(info.event.start)
-                        timePicker.time = moment(date);
-                        datePicker.time = moment(date);
-
-                        document.getElementById('fecha').value = date.toISOString().split('T')[0];
-                        let hora = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                        document.getElementById('hora').value = date.getHours() < 10 && hora[0] !== '0' ? '0'+hora : hora;
-                        idAModificar = info.event.id
-                        eventAModificar = info.event
-                        document.getElementById('botonCancelar').style.display = 'block';
-                        console.log('datos', datos);
-                        //si hay datos del paciente asignar paciente en el modal
-                        if (datos.paciente) {
-
-                            var paciente = $('#paciente');
-                            paciente.val(datos.idPersonaP).change();
-                            $("#paciente option").attr("selected", false);
-                            $("#paciente option").prop("selected", false);
-                            $("#paciente option[value='"+datos.idPersonaP+"']").attr("selected", true);
-                            $("#paciente option[value='"+datos.idPersonaP+"']").prop("selected", true);
-                            $('#select2-paciente-container').html(datos.paciente.nombre+' '+datos.paciente.apellido)
-                        }
-                        if (datos.especialidades) {
-                            var especialidad = $('#especialidad');
-                            especialidad.val(datos.idEspecialidad).change();
-                            $("#paciente option").attr("selected", false);
-                            $("#paciente option").prop("selected", false);
-                            $("#paciente option[value='"+datos.idEspecialidad+"']").attr("selected", true);
-                            $("#paciente option[value='"+datos.idEspecialidad+"']").prop("selected", true);
-                            $('#select2-especialidad-container').html(datos.especialidades.nombre);
-                            changeSelector(datos.idEspecialidad, datos.medico);
-                        }
-                    }
-                    else {
-                        TitleModal = 'Recetar Cita';
-                        //Metet el titulo en el modal
-                        document.getElementById('modalAgendaCitaLabel').innerHTML = TitleModal
-                    }
-                }*/eventClick: function (info) {
+                
+                    eventClick: function (info) {
                     //llamar modal
                         datos =info.event._def.extendedProps.data;
                         fechaActual = new Date();
@@ -701,60 +605,7 @@
         }
     }
 
-    /*function Modificar() {
-        if ( idAModificar > 0  && eventAModificar != null) {
-            const fueraDeHora = fueraDeHorario();
-            const form = document.getElementById('formCita');
-            if (fueraDeHora) {
-                const errorHora = document.getElementById('errorHora');
-                errorHora.innerHTML = 'Fuera de horario'
-                form.hora.setAttribute('is-invalid',true)
-                return;
-            } else {
-                const fecha = new Date(form.fecha.value+'T00:00:00');
-                if (fecha < new Date()){
-                    return;
-                }
-                if (form.paciente.value === null || form.paciente.value === 0) { return;}
-                if (form.especialidad.value === null || form.especialidad.value === 0) { return;}
-                if (form.medico.value === null || form.medico.value === 0) { return;}
-                const selectPaciente = document.querySelector('#paciente');
-                const paciente = selectPaciente.options[selectPaciente.selectedIndex].text;
-                const nombrePaciente = paciente.split(' ');
-
-                const selectEspecialidad = document.querySelector('#especialidad');
-                const especialidad = selectEspecialidad.options[selectEspecialidad.selectedIndex].text;
-
-                const selectMedico = document.querySelector('#medico');
-                const medico = selectMedico.options[selectMedico.selectedIndex].text;
-                const nombreMedico = medico.split(' ');
-
-                var ajax = new XMLHttpRequest();
-                ajax.open('POST', '/Cita/modificar', true);
-                let data = new FormData(form);
-                data.append('id_cita',idAModificar);
-                //codigo para poner la cita en la base de datos
-                ajax.setRequestHeader('X-CSRF-TOKEN', document.querySelector("input[name='_token']").value);
-                ajax.send(data);
-                //codigo para meter la cita en el fullCalendar
-                ajax.onload = () => {
-                    if(ajax.responseText){
-                        const response = JSON.parse(ajax.responseText);
-                        console.log(response)
-                        if(response.success){
-                            const hora = form.hora.value.split(':');
-                            const finHora = parseInt(hora[1])+30;
-                            eventAModificar.setDates(form.fecha.value+' '+form.hora.value, form.fecha.value+' '+hora[0]+':'+finHora)
-                            // funcion para cambiar color
-                            //eventAModificar.setProp('color','#fffff')
-                            $('#modalAgendaCita').modal('hide');
-                        }
-                    }
-                }
-            }
-        }
-    }
-    */
+    
     function Cancelar() {
         if ( idAModificar > 0  && eventAModificar != null) {
         var ajax = new XMLHttpRequest();

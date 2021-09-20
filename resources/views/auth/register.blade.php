@@ -58,7 +58,7 @@
 
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electrónico') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" @error('email') is-invalid @enderror name="email" value="{{ old('email') }}" required autocomplete="email">
@@ -103,7 +103,7 @@
                             <label for="ciudadResi" class="col-md-4 col-form-label text-md-right">{{ __('Ciudad de Residencia') }}</label>
 
                             <div class="col-md-6">
-                                <input id="ciudadResi" type="text" class="form-control" @error('ciudadResi') is-invalid @enderror name="ciudadResi" value="{{ old('coudadResi') }}" required autocomplete="ciudadResi" autofocus>
+                                <input id="ciudadResi" type="text" class="form-control" @error('ciudadResi') is-invalid @enderror name="ciudadResi" value="{{ old('ciudadResi') }}" required autocomplete="ciudadResi" autofocus>
 
                                 @error('ciudadResi')
                                     <span class="invalid-feedback" role="alert">
@@ -139,10 +139,9 @@
                             </div>
                         </div>
 
-
-
-
-
+                        @if($errors->any())
+                        <h6 style="color:red">{{$errors->first()}}</h6>
+                        @endif
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

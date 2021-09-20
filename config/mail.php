@@ -89,8 +89,8 @@ return [
     ],
     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
-    'username' => env('MAIL_USERNAME','hospitalnuestrocorazon@gmail.com'),
-    'password' => env('MAIL_PASSWORD','lqqaalwjsgsyyeza'),
+    'username' => env('MAIL_USERNAME','hospitalnuestrafamilia@gmail.com'),
+    'password' => env('MAIL_PASSWORD','xicglrypyclumpgz'),
 
     /*
     |--------------------------------------------------------------------------

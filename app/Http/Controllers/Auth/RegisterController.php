@@ -51,16 +51,24 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'cedula' => ['required', 'string', 'max:10'],
+            'name' => ['required', 'string', 'max:40'],
+            'surname' => ['required', 'string', 'max:40'],
+            'cedula' => ['required', 'numeric', 'digits:10'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'telefono' => ['required', 'string', 'max:10'],
+            'telefono' => ['required', 'string', 'between:9,15'],
             'direccion' => ['required', 'string', 'max:255'],
             'ciudadResi' => ['required', 'string', 'max:255'],
             'genero' => ['required', 'string', 'max:255'],
-            ]
+        ],
+        [
 
+            'name.max' =>"El nombre de la persona no puede ser mayor a 40 caracteres",
+            'surname.max' =>"El apellido de la persona no puede ser mayor a 40 caracteres",
+            'cedula.digits' =>"La cédula tiene que tener 10 caracteres",
+            'cedula.numeric' =>"La cédula tiene que ser numérica",
+            'telefono.between' =>"El número de teléfono tiene que tener entre 9 y 15 caracteres",
+            'email.unique' =>"Ya existe un usuario con ese correo electrónico"
+            ]
 
         );
     }
@@ -77,8 +85,9 @@ class RegisterController extends Controller
         $datos= ['nombre' => $data['name'],'apellido' => $data['surname'],'cedula' => $data['cedula'],'email' => $data['email'],
         'telefono' =>$data['telefono'],'direccion' =>$data['direccion'],'ciudadResi' =>$data['ciudadResi'],'fechaNacimiento' =>$data['fechaNacimiento'],
         'genero' =>$data['genero'],];
-
-
+        
+  
+        
         $persona= Persona::create([
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
