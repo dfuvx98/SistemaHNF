@@ -86,7 +86,11 @@ class RegisterController extends Controller
         'telefono' =>$data['telefono'],'direccion' =>$data['direccion'],'ciudadResi' =>$data['ciudadResi'],'fechaNacimiento' =>$data['fechaNacimiento'],
         'genero' =>$data['genero'],];
         
-  
+        $nombreUsuario= 'C'.$data['cedula'];
+
+        if(User::where('name',$nombreUsuario)->first()){
+            return redirect()->back()->withErrors(['Un usuario con ese nombre ya existe, revise la cédula y el rol']);
+         }
         
         $persona= Persona::create([
             'nombre' => $datos['nombre'],

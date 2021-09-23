@@ -452,6 +452,7 @@
                     //llamar modal
                         datos =info.event._def.extendedProps.data;
                         fechaActual = new Date();
+                        console.log(fechaActual);
                         if(rolUsuario == 'medico' && datos.estado !==1){
                             return;
                         }
@@ -530,7 +531,6 @@
 
     function AgendarCitas() {
         if ( idAModificar > 0 && eventAModificar != null) {
-            Modificar();
             return;
         }
         const fueraDeHora = fueraDeHorario();
@@ -548,9 +548,9 @@
             return;
         } else {
             const fecha = new Date(form.fecha.value+'T00:00:00');
-            if (fecha < new Date()){
-                return;
-            }
+            
+                console.log(fecha);
+                console.log(new Date());
             if (form.paciente.value === null || form.paciente.value === 0) { return;}
             if (form.especialidad.value === null || form.especialidad.value === 0) { return;}
             if (form.medico.value === null || form.medico.value === 0) { return;}
