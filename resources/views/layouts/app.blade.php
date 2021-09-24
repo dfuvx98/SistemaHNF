@@ -75,6 +75,9 @@
                             <a class="nav-link" href="{{ route('especialidades.index') }}">{{ __('Gestión Especialidades') }}</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cita.reporte') }}">{{ __('Reporte Especialidades') }}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('personaMostrarMedicos') }}">{{ __('Gestión Médicos') }}</a>
                         </li>
                         <li class="nav-item">

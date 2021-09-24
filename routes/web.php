@@ -49,6 +49,7 @@ Route::get('/cliente/crearPaciente/{id}',[PersonaController::class,'crearPacient
 Route::get('/Cita/borrar/{id}',[CitaController::class,'borrar'])->name('cita.borrar')->middleware('auth');
 Route::post('/Cita/cancelar',[CitaController::class,'borrarCita'])->name('cita.delete')->middleware('auth');
 Route::get('/Cita/obtener',[CitaController::class,'obtenerCitas'])->name('cita.get')->middleware('auth');
+Route::get('/Cita/reporteEspecialidad',[CitaController::class,'reporte'])->name('cita.reporte')->middleware('role:administrador','auth','firstLogin');
 Route::post('/Cita/agendar', [CitaController::class,'agendarCita'])->name('cita.agendar')->middleware('auth');
 Route::post('/Cita/modificar', [CitaController::class,'modificarCita'])->name('cita.modificar')->middleware('auth');
 Route::post('/Consulta/guardar',[ConsultaController::class, 'guardar'])->name('consulta.guardar')->middleware('auth');

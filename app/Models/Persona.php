@@ -49,5 +49,8 @@ class Persona extends Model
     public function Pacientes(){
         return $this->belongsTo(Persona::class,'idPersona');
     }
-    
+
+    public function Enfermedades(){
+        return $this->hasMany(Enfermedades::class,'idPersona');
+    }
 }

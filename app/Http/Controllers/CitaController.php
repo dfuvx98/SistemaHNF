@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Especialidades;
 use App\Models\Tipo_examen;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CitaController extends Controller
 {
@@ -100,5 +101,18 @@ class CitaController extends Controller
             return response()->json($objeto);
         }
     }
+
+    public function reporte(){
+
+        $especialidades = Especialidades::all();
+        $totalCitas =  DB::table('citas')->selectRaw('idEspecialidad, count(*) as total')->groupBy('idEspecialidad')->get();
+        $totalCitasGenero = DB::table('citas')->selectRaw('idEspecialidad, genero,  count(*) as totalCitas')->join('personas', 'personas.id', '=', 'citas.idPersonaP')->groupBy('idEspecialidad','genero')->get();
+        
+        return view('reporteEspecialidad',compact('especialidades', 'totalCitas','totalCitasGenero'));
+
+        
+
+    }
+
 
 }

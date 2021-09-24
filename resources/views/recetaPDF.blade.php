@@ -17,6 +17,10 @@
 
     }
 
+    #piePagina{
+        font-weight: bold;
+    }
+
 </style>
 <h1>Hospital Nuestro Corazón</h1>
 <h2>Receta Médica</h2>
@@ -52,5 +56,10 @@
         </tr>
     </tbody>
 </table>
+<div>
+    <p><span id= piePagina>Receta generada por:</span> {{Auth::user()->Persona->nombre}} {{Auth::user()->Persona->apellido}} en {{ date('Y-m-d H:i:s') }}</p>
+   
+</div>
+
 </body>
 </html>
